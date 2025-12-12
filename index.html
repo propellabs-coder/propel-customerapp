@@ -139,19 +139,7 @@
         </div>
     </div>
 
-    <!-- 2. ONBOARDING SCREEN -->
-    <div id="screen-onboarding" class="screen full-screen bg-[#FFF7ED]">
-        <div class="w-full p-6 flex justify-between items-center z-20">
-            <div class="text-sm font-bold text-blue-900">9:41</div>
-            <button onclick="navigateTo('screen-login')" class="px-4 py-1.5 bg-white rounded-full text-xs font-semibold text-gray-700 shadow-sm border border-gray-100">skip</button>
-        </div>
-        <div class="flex-1 flex flex-col relative z-10 px-6 pt-4 pb-8" id="onboarding-content">
-            <!-- Injected via JS -->
-        </div>
-        <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-orange-50 to-transparent pointer-events-none -z-0"></div>
-    </div>
-
-    <!-- 3. LOGIN SCREEN -->
+    <!-- 2. LOGIN SCREEN -->
     <div id="screen-login" class="screen full-screen bg-white px-8 pt-12 pb-6">
         <div class="w-full flex-1 flex flex-col justify-center animate-fade-in">
             <div class="w-full h-48 mb-6 flex items-center justify-center relative">
@@ -167,7 +155,7 @@
             <h2 class="text-2xl font-bold text-blue-900 mb-2">Sign In</h2>
             <p class="text-gray-500 text-sm mb-6">Please log in to your account</p>
 
-            <form onsubmit="event.preventDefault(); navigateTo('screen-dashboard', true);" class="space-y-5">
+            <form onsubmit="event.preventDefault(); navigateTo('screen-otp-login');" class="space-y-5">
                 <div>
                     <div class="flex items-center space-x-2 text-blue-900 mb-1">
                         <i data-lucide="mail" class="w-4 h-4"></i>
@@ -202,6 +190,30 @@
         </div>
     </div>
 
+    <!-- 3. LOGIN OTP (New) -->
+    <div id="screen-otp-login" class="screen full-screen bg-white px-8 pt-8">
+        <button onclick="navigateTo('screen-login')" class="mb-4 p-2 -ml-2"><i data-lucide="chevron-left" class="text-gray-800"></i></button>
+        <div class="flex flex-col items-center text-center animate-fade-in mt-4">
+            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                <i data-lucide="shield-check" class="w-8 h-8 text-blue-900"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Verify Login</h2>
+            <p class="text-gray-500 text-sm mb-10 px-4">For your security, a one-time password has been sent to your email.</p>
+            
+            <div class="flex justify-center space-x-3 mb-8">
+                <input type="text" maxlength="1" class="otp-input w-14 h-16 rounded-xl border-2 border-blue-200 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all" value="1">
+                <input type="text" maxlength="1" class="otp-input w-14 h-16 rounded-xl border-2 border-blue-200 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all" value="2">
+                <input type="text" maxlength="1" class="otp-input w-14 h-16 rounded-xl border-2 border-blue-200 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all" value="3">
+                <input type="text" maxlength="1" class="otp-input w-14 h-16 rounded-xl border-2 border-blue-200 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all" value="4">
+            </div>
+
+            <div class="bg-blue-50 text-blue-900 px-4 py-1.5 rounded-full text-xs font-bold mb-8 flex items-center"><i data-lucide="clock" class="w-3 h-3 mr-1.5"></i> 00:21</div>
+
+            <button onclick="navigateTo('screen-dashboard', true)" class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg">Verify OTP</button>
+            <div class="mt-6 text-sm text-gray-500">Didn't receive code? <button class="text-blue-900 font-bold ml-1">Resend</button></div>
+        </div>
+    </div>
+
     <!-- 4. FORGOT PASSWORD -->
     <div id="screen-forgot-password" class="screen full-screen bg-white px-8 pt-8">
         <button onclick="navigateTo('screen-login')" class="mb-4 p-2 -ml-2"><i data-lucide="chevron-left" class="text-gray-800"></i></button>
@@ -222,7 +234,7 @@
         </div>
     </div>
 
-    <!-- 5. OTP VERIFICATION -->
+    <!-- 5. OTP VERIFICATION (Forgot Password) -->
     <div id="screen-otp" class="screen full-screen bg-white px-8 pt-8">
         <button onclick="navigateTo('screen-forgot-password')" class="mb-4 p-2 -ml-2"><i data-lucide="chevron-left" class="text-gray-800"></i></button>
         <div class="flex flex-col items-center text-center animate-fade-in mt-4">
@@ -901,50 +913,17 @@
         { id: '2045', subject: 'Site Visit Request', owner: 'Sales', status: 'Open', wip: 'Scheduled', color: 'blue', type: 'pending' }
     ];
 
-    const slides = [
-        {
-            title: "Login to your <span class='text-blue-900'>Property</span>",
-            desc: "Seamlessly access all your property details in one secure dashboard tailored just for you.",
-            icon: "key",
-            bgBlob: "bg-blue-100",
-            buttonType: "wide"
-        },
-        {
-            title: "Welcome to your <span class='text-blue-900'>Home</span>",
-            desc: "Visualize your future home with detailed blueprints and layout plans available at your fingertips.",
-            icon: "home",
-            bgBlob: "bg-purple-100",
-            buttonType: "circle"
-        },
-        {
-            title: "Property & <span class='text-blue-900'>Payment</span>",
-            desc: "Get real-time updates on your property value and manage payments without the hassle.",
-            icon: "credit-card",
-            bgBlob: "bg-yellow-100",
-            buttonType: "circle"
-        },
-        {
-            title: "Construction <span class='text-blue-900'>Progress</span>",
-            desc: "Track the live status of your construction with photo updates and timeline milestones.",
-            icon: "hard-hat",
-            bgBlob: "bg-orange-100",
-            buttonType: "circle"
-        }
-    ];
-
-    let currentSlide = 0;
-
     // --- Initialization ---
     document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
         setTimeout(() => {
             document.getElementById('screen-splash').style.display = 'none';
-            navigateTo('screen-onboarding');
-            renderOnboarding(0);
+            navigateTo('screen-onboarding'); // Actually redirects to login via simplified flow if needed, but keeping for direct access check
+            navigateTo('screen-login'); // Explicitly start at login per latest request to remove onboarding slides
         }, 2000);
 
         // Init Components
-        renderHomeDetails(); // Initial Render for Default Property
+        renderHomeDetails(); 
         renderConstruction();
         renderTickets();
     });
@@ -973,15 +952,17 @@
             el.classList.add('text-gray-400');
         });
         
-        // Handle normal nav items
         if (btnElement && btnElement.classList.contains('nav-item')) {
             btnElement.classList.add('active');
             btnElement.classList.remove('text-gray-400');
         } 
         
-        // If switching to Home (Property Details), ensure proper rendering
         if (screenId === 'screen-home') {
-            renderHomeDetails();
+            renderHomeDetails(); // For Dashboard rendering if needed
+        }
+        
+        if (screenId === 'screen-property-detail') {
+            renderHomeDetails(); // Re-use logic for detail view
         }
 
         navigateTo(screenId, true);
@@ -995,12 +976,14 @@
         const btn1 = document.getElementById('home-prop-1');
         const btn2 = document.getElementById('home-prop-2');
         
-        if (id === 1) {
-            btn1.className = "flex-1 py-2 rounded-full text-xs font-bold bg-blue-900 text-white shadow-sm transition-all";
-            btn2.className = "flex-1 py-2 rounded-full text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all";
-        } else {
-            btn1.className = "flex-1 py-2 rounded-full text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all";
-            btn2.className = "flex-1 py-2 rounded-full text-xs font-bold bg-blue-900 text-white shadow-sm transition-all";
+        if(btn1 && btn2) {
+            if (id === 1) {
+                btn1.className = "px-6 py-1.5 rounded-full text-xs font-bold bg-blue-900 text-white shadow-sm transition-all";
+                btn2.className = "px-6 py-1.5 rounded-full text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all";
+            } else {
+                btn1.className = "px-6 py-1.5 rounded-full text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all";
+                btn2.className = "px-6 py-1.5 rounded-full text-xs font-bold bg-blue-900 text-white shadow-sm transition-all";
+            }
         }
         
         renderHomeDetails();
@@ -1009,11 +992,9 @@
     function renderHomeDetails() {
         const data = propertyDetails[appState.propertyId];
         
-        // Image
         const img = document.getElementById('home-prop-img');
         if(img) img.src = data.image;
 
-        // Unit Summary
         const unitGrid = document.getElementById('unit-summary-grid');
         if(unitGrid) {
             unitGrid.innerHTML = `
@@ -1036,7 +1017,6 @@
             `;
         }
 
-        // Payment Summary
         const payGrid = document.getElementById('payment-summary-grid');
         if(payGrid) {
             payGrid.innerHTML = `
@@ -1247,72 +1227,6 @@
     function submitReferral() {
         closeReferPopup();
         alert("Referral Submitted Successfully!");
-    }
-
-    // --- Onboarding Render ---
-    function renderOnboarding(index) {
-        currentSlide = index;
-        const slide = slides[index];
-        const container = document.getElementById('onboarding-content');
-        const isLast = index === slides.length - 1;
-
-        let illustrationHtml = `
-            <div class="relative w-full h-64 flex items-center justify-center animate-fade-in">
-                <div class="absolute w-64 h-64 ${slide.bgBlob} rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-                <div class="absolute w-64 h-64 bg-gray-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000 left-10"></div>
-                
-                <div class="relative z-10 flex flex-col items-center justify-center bg-white p-6 rounded-2xl shadow-lg border border-gray-50 transform rotate-2">
-                     <i data-lucide="${slide.icon}" class="text-blue-900 w-16 h-16"></i>
-                </div>
-            </div>
-        `;
-
-        let buttonHtml = '';
-        if (slide.buttonType === 'wide') {
-            buttonHtml = `
-                <button onclick="nextSlide()" class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-xl hover:bg-blue-800 active:scale-95 transition-all flex items-center justify-center space-x-2 animate-fade-in">
-                    <span>Get Started</span>
-                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                </button>
-            `;
-        } else {
-            buttonHtml = `
-                <button onclick="nextSlide()" class="w-16 h-16 bg-blue-900 rounded-full shadow-xl hover:bg-blue-800 active:scale-95 transition-all flex items-center justify-center text-white border-4 border-white animate-fade-in">
-                    <i data-lucide="${isLast ? 'check' : 'chevron-right'}" class="w-7 h-7"></i>
-                </button>
-            `;
-        }
-
-        let dotsHtml = '<div class="flex space-x-2">';
-        slides.forEach((_, i) => {
-            dotsHtml += `<div class="h-2 rounded-full transition-all duration-300 ${i === index ? 'w-8 bg-blue-900' : 'w-2 bg-gray-300'}"></div>`;
-        });
-        dotsHtml += '</div>';
-
-        container.innerHTML = `
-            <div class="flex-1 flex items-center justify-center mb-8">
-                ${illustrationHtml}
-            </div>
-            <div class="text-center space-y-4 mb-8 animate-fade-in">
-                <h2 class="text-3xl font-bold text-blue-900 leading-tight">${slide.title}</h2>
-                <p class="text-gray-500 text-sm leading-relaxed px-4">${slide.desc}</p>
-            </div>
-            <div class="flex flex-col items-center space-y-8 mt-auto">
-                ${dotsHtml}
-                <div class="h-16 flex items-center justify-center w-full">
-                    ${buttonHtml}
-                </div>
-            </div>
-        `;
-        lucide.createIcons();
-    }
-
-    function nextSlide() {
-        if (currentSlide < slides.length - 1) {
-            renderOnboarding(currentSlide + 1);
-        } else {
-            navigateTo('screen-login');
-        }
     }
 </script>
 
