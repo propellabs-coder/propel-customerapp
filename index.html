@@ -77,7 +77,7 @@
             left: 0;
             overflow-y: auto;
             background-color: #F8F9FB;
-            padding-bottom: 90px; /* Space for bottom nav */
+            padding-bottom: 110px; /* Space for bottom nav */
             z-index: 10;
         }
         
@@ -106,6 +106,15 @@
             100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
         }
         .fab-pulse { animation: pulse-orange 2s infinite; }
+        
+        .popup-input {
+            border: 1px solid #E5E7EB;
+            transition: all 0.2s;
+        }
+        .popup-input:focus {
+            border-color: #1E3A8A;
+            ring: 1px solid #1E3A8A;
+        }
     </style>
 </head>
 <body>
@@ -158,7 +167,7 @@
             <h2 class="text-2xl font-bold text-blue-900 mb-2">Sign In</h2>
             <p class="text-gray-500 text-sm mb-6">Please log in to your account</p>
 
-            <form onsubmit="event.preventDefault(); navigateTo('screen-home', true);" class="space-y-5">
+            <form onsubmit="event.preventDefault(); navigateTo('screen-dashboard', true);" class="space-y-5">
                 <div>
                     <div class="flex items-center space-x-2 text-blue-900 mb-1">
                         <i data-lucide="mail" class="w-4 h-4"></i>
@@ -267,8 +276,8 @@
 
     <!-- ================= MAIN APP SCREENS ================= -->
 
-    <!-- 7. HOME DASHBOARD -->
-    <div id="screen-home" class="screen">
+    <!-- 7. DASHBOARD (HOME PAGE) - CENTER BUTTON DESTINATION -->
+    <div id="screen-dashboard" class="screen">
         <div class="bg-blue-900 pt-10 pb-12 px-6 header-curve relative z-0">
             <div class="flex justify-between items-start">
                 <div>
@@ -283,7 +292,9 @@
         </div>
 
         <div class="px-5 -mt-8 relative z-10 space-y-6 pb-24">
-            <div onclick="navigateTo('screen-property-detail', true)" class="bg-white rounded-2xl p-2 shadow-lg cursor-pointer transform transition hover:scale-[1.02]">
+            
+            <!-- Hero Card -->
+            <div onclick="navigateTo('screen-property-detail', true); switchTab('screen-property-detail', document.querySelector('.nav-item'))" class="bg-white rounded-2xl p-2 shadow-lg cursor-pointer transform transition hover:scale-[1.02]">
                 <div class="relative h-48 rounded-xl overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
@@ -295,6 +306,7 @@
                 </div>
             </div>
 
+            <!-- Properties Scroll -->
             <div>
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="text-gray-900 font-bold text-sm">My Properties</h3>
@@ -324,6 +336,7 @@
                 </div>
             </div>
 
+            <!-- Refer Banner -->
             <div class="bg-blue-900 rounded-2xl p-4 flex items-center justify-between relative overflow-hidden text-white shadow-lg">
                  <div class="absolute -right-4 top-0 w-24 h-24 bg-orange-500 rounded-full opacity-20"></div>
                  <div class="relative z-10 w-2/3">
@@ -336,6 +349,7 @@
                  </div>
             </div>
             
+            <!-- Video -->
              <div class="relative h-36 rounded-2xl overflow-hidden shadow-md group">
                 <img src="https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -348,97 +362,186 @@
         </div>
     </div>
 
-    <!-- 8. PROPERTY DETAILS -->
+    <!-- 8. PROPERTY DETAILS (TAB 1) -->
     <div id="screen-property-detail" class="screen">
-        <div class="bg-white pt-12 px-4 pb-4 flex items-center shadow-sm sticky top-0 z-20">
-            <button onclick="navigateTo('screen-home', true)" class="p-2 mr-2"><i data-lucide="chevron-left" class="text-gray-800"></i></button>
-            <h2 class="text-lg font-bold text-gray-800 flex-1 text-center pr-10">Property</h2>
+        <div class="bg-white pt-12 px-4 pb-2 flex flex-col items-center sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-gray-50">
+            <div class="w-full flex items-center mb-4">
+                 <button onclick="navigateTo('screen-dashboard', true)" class="p-2 mr-2"><i data-lucide="chevron-left" class="text-gray-800"></i></button>
+                 <h2 class="text-lg font-bold text-gray-800 flex-1 text-center pr-10">Property</h2>
+            </div>
+            <div class="flex space-x-2 mb-2">
+                <button id="home-prop-1" onclick="switchHomeProperty(1)" class="px-6 py-1.5 rounded-full text-xs font-bold bg-blue-900 text-white shadow-sm transition-all">Property 01</button>
+                <button id="home-prop-2" onclick="switchHomeProperty(2)" class="px-6 py-1.5 rounded-full text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all">Property 02</button>
+            </div>
         </div>
 
-        <div class="p-5 space-y-6 pb-24 animate-fade-in">
+        <div class="p-5 space-y-6 pb-24 animate-fade-in no-scrollbar overflow-y-auto">
+            
+            <!-- Main Image -->
             <div class="rounded-2xl overflow-hidden h-48 shadow-lg relative">
-                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
-                <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-blue-900">Unit: A1001</div>
+                <img id="home-prop-img" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
             </div>
 
-            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+            <!-- Unit Summary -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 relative overflow-hidden">
                 <h3 class="font-bold text-gray-800 mb-4 text-sm">Unit Summary</h3>
-                <div class="grid grid-cols-2 gap-y-4 gap-x-2">
-                    <div>
-                         <p class="text-[10px] text-gray-400 uppercase tracking-wide">Unit Type</p>
-                         <p class="font-bold text-blue-900 text-sm">3BHK+3T</p>
+                <div class="flex justify-between items-start relative z-10">
+                    <div class="grid grid-cols-2 gap-y-4 gap-x-6 w-3/4" id="unit-summary-grid">
+                        <!-- Injected via JS -->
                     </div>
-                    <div>
-                         <p class="text-[10px] text-gray-400 uppercase tracking-wide">Facing</p>
-                         <p class="font-bold text-blue-900 text-sm">East</p>
-                    </div>
-                    <div>
-                         <p class="text-[10px] text-gray-400 uppercase tracking-wide">Super Built-up Area</p>
-                         <p class="font-bold text-blue-900 text-sm">1850 Sq.ft</p>
-                    </div>
-                    <div>
-                         <p class="text-[10px] text-gray-400 uppercase tracking-wide">Carpet Area</p>
-                         <p class="font-bold text-blue-900 text-sm">1250 Sq.ft</p>
+                    <!-- Small Illustration -->
+                    <div class="w-16 h-20 bg-blue-50 rounded-lg flex items-center justify-center border border-blue-100 absolute right-0 bottom-0">
+                        <i data-lucide="smartphone" class="w-10 h-10 text-blue-300"></i>
+                        <div class="absolute -right-2 -bottom-2 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center border-2 border-white">
+                            <i data-lucide="calendar" class="w-4 h-4 text-green-600"></i>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-blue-900 rounded-2xl p-4 shadow-lg text-white">
-                <h3 class="font-bold mb-4 text-sm flex items-center justify-between">
-                    Payment Summary
-                    <span class="bg-white/10 px-2 py-0.5 rounded text-[10px]">80% Paid</span>
-                </h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                         <p class="text-[10px] opacity-70">Total Cost</p>
-                         <p class="font-bold text-lg">₹1.50 Cr</p>
-                    </div>
-                    <div class="text-right">
-                         <p class="text-[10px] opacity-70">Received</p>
-                         <p class="font-bold text-lg text-green-400">₹1.20 Cr</p>
-                    </div>
-                    <div>
-                         <p class="text-[10px] opacity-70">Balance</p>
-                         <p class="font-bold text-lg text-orange-400">₹30.0 L</p>
-                    </div>
+            <!-- Payment Summary -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 relative">
+                <h3 class="font-bold text-gray-800 mb-4 text-sm">Payment Summary</h3>
+                <div class="flex justify-between items-center mb-4">
+                     <div class="relative w-16 h-16 mr-4">
+                         <div class="absolute inset-0 bg-blue-50 rounded-full"></div>
+                         <i data-lucide="smartphone" class="w-8 h-8 text-blue-900 absolute top-3 left-4 z-10"></i>
+                         <div class="absolute bottom-2 right-0 bg-white shadow-md rounded-md p-1 border border-gray-100 z-20">
+                             <div class="w-3 h-2 bg-blue-900 rounded-sm"></div>
+                         </div>
+                     </div>
+                     
+                     <div class="flex-1 grid grid-cols-2 gap-4" id="payment-summary-grid">
+                        <!-- Injected via JS -->
+                     </div>
                 </div>
             </div>
 
+            <!-- Installments -->
             <div>
                 <h3 class="font-bold text-gray-800 mb-3 text-sm">Installments</h3>
                 <div class="flex space-x-3 overflow-x-auto no-scrollbar pb-2">
-                    <div class="min-w-[140px] bg-white rounded-xl p-3 border-l-4 border-green-500 shadow-sm">
-                        <p class="text-[10px] text-gray-400">On Booking</p>
-                        <p class="font-bold text-gray-800 text-sm mt-1">₹10,00,000</p>
-                        <span class="inline-block bg-green-100 text-green-700 text-[9px] px-2 py-0.5 rounded mt-2 font-bold">PAID</span>
+                    <div class="min-w-[150px] bg-white rounded-xl p-3 border border-gray-100 shadow-sm relative">
+                         <div class="flex justify-between items-center mb-2">
+                             <span class="text-[10px] font-bold text-gray-800">On Booking</span>
+                             <div class="w-8 h-8 rounded-lg overflow-hidden bg-gray-100"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=100&q=60" class="w-full h-full object-cover"></div>
+                         </div>
+                         <p class="text-[9px] text-gray-400">Total Amount</p>
+                         <p class="font-bold text-sm text-gray-800">₹10,00,000</p>
+                         <div class="mt-2 flex justify-between items-end">
+                             <div>
+                                 <p class="text-[8px] text-gray-400">Due Date</p>
+                                 <p class="text-[9px] font-bold text-gray-600">01 Jan 2024</p>
+                             </div>
+                             <span class="bg-green-100 text-green-700 text-[8px] px-2 py-0.5 rounded font-bold">PAID</span>
+                         </div>
                     </div>
-                    <div class="min-w-[140px] bg-white rounded-xl p-3 border-l-4 border-green-500 shadow-sm">
-                        <p class="text-[10px] text-gray-400">On Agreement</p>
-                        <p class="font-bold text-gray-800 text-sm mt-1">₹25,00,000</p>
-                        <span class="inline-block bg-green-100 text-green-700 text-[9px] px-2 py-0.5 rounded mt-2 font-bold">PAID</span>
+                    <div class="min-w-[150px] bg-white rounded-xl p-3 border border-gray-100 shadow-sm relative">
+                         <div class="flex justify-between items-center mb-2">
+                             <span class="text-[10px] font-bold text-gray-800">On Agreement</span>
+                             <div class="w-8 h-8 rounded-lg overflow-hidden bg-gray-100"><img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=100&q=60" class="w-full h-full object-cover"></div>
+                         </div>
+                         <p class="text-[9px] text-gray-400">Total Amount</p>
+                         <p class="font-bold text-sm text-gray-800">₹25,00,000</p>
+                         <div class="mt-2 flex justify-between items-end">
+                             <div>
+                                 <p class="text-[8px] text-gray-400">Due Date</p>
+                                 <p class="text-[9px] font-bold text-gray-600">15 Feb 2024</p>
+                             </div>
+                             <button class="bg-blue-900 text-white text-[8px] px-2 py-1 rounded shadow-sm">Pay Now</button>
+                         </div>
                     </div>
-                    <div class="min-w-[140px] bg-white rounded-xl p-3 border-l-4 border-orange-500 shadow-sm">
-                        <p class="text-[10px] text-gray-400">Plinth Level</p>
-                        <p class="font-bold text-gray-800 text-sm mt-1">₹15,00,000</p>
-                        <button class="bg-blue-900 text-white text-[9px] px-3 py-1 rounded mt-2">Pay Now</button>
+                </div>
+            </div>
+
+            <!-- Payment Acknowledgement -->
+            <div>
+                 <h3 class="font-bold text-gray-800 mb-3 text-sm">Payment <span class="text-blue-900">Acknowledgement</span></h3>
+                 <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center justify-between">
+                     <div class="flex items-center space-x-3">
+                         <div class="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center">
+                             <i data-lucide="file-check" class="text-orange-500 w-5 h-5"></i>
+                         </div>
+                         <div>
+                             <p class="font-bold text-gray-800 text-xs">Property 1</p>
+                             <p class="text-[10px] text-blue-900 font-bold">Pay ₹10,00,000</p>
+                         </div>
+                     </div>
+                     <button class="bg-blue-900 text-white text-[10px] px-3 py-1.5 rounded-lg flex items-center shadow-md hover:bg-blue-800">
+                         <i data-lucide="download" class="w-3 h-3 mr-1"></i> Download
+                     </button>
+                 </div>
+            </div>
+
+            <!-- Debit/Credit Notes -->
+            <div>
+                <h3 class="font-bold text-gray-800 mb-3 text-sm">Debit/Credit <span class="text-blue-900">Notes</span></h3>
+                <div class="flex space-x-3 overflow-x-auto no-scrollbar pb-2">
+                    <div class="min-w-[140px] bg-red-50 rounded-xl p-3 border border-red-100">
+                         <div class="flex justify-between mb-2">
+                             <span class="text-[9px] font-bold text-blue-900">Debit Note</span>
+                             <div class="w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-sm"><i data-lucide="file-minus" class="w-2 h-2 text-red-500"></i></div>
+                         </div>
+                         <p class="text-[9px] text-gray-500">DN-000124</p>
+                         <p class="font-bold text-xs text-gray-800 mt-1">₹5,234</p>
+                         <p class="text-[8px] text-gray-400 mt-2">Due: 10 Jan</p>
+                    </div>
+                    <div class="min-w-[140px] bg-blue-50 rounded-xl p-3 border border-blue-100">
+                         <div class="flex justify-between mb-2">
+                             <span class="text-[9px] font-bold text-blue-900">Credit Note</span>
+                             <div class="w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-sm"><i data-lucide="file-plus" class="w-2 h-2 text-green-500"></i></div>
+                         </div>
+                         <p class="text-[9px] text-gray-500">CN-00055</p>
+                         <p class="font-bold text-xs text-gray-800 mt-1">₹12,000</p>
+                         <p class="text-[8px] text-gray-400 mt-2">Adj: 12 Jan</p>
                     </div>
                 </div>
             </div>
             
-            <div>
-                 <h3 class="font-bold text-gray-800 mb-3 text-sm">Document Repository</h3>
-                 <div class="grid grid-cols-3 gap-3">
-                     <div class="bg-white p-3 rounded-xl flex flex-col items-center justify-center space-y-2 border border-gray-100 shadow-sm">
-                         <div class="w-8 h-8 bg-red-50 rounded flex items-center justify-center"><i data-lucide="file-text" class="text-red-500 w-4 h-4"></i></div>
-                         <p class="text-[9px] text-center font-medium">Welcome<br>Letter</p>
+            <!-- Document Repository -->
+            <div class="flex flex-col items-center">
+                 <h3 class="font-bold text-gray-800 mb-4 text-sm w-full text-left">Document <span class="text-blue-900">Repository</span></h3>
+                 
+                 <!-- Center Folder Graphic -->
+                 <div class="relative w-32 h-32 mb-6">
+                      <div class="absolute inset-0 bg-yellow-100 rounded-full blur-xl opacity-50"></div>
+                      <div class="relative z-10 flex flex-col items-center">
+                           <i data-lucide="folder-open" class="w-20 h-20 text-yellow-400 fill-yellow-100"></i>
+                           <div class="absolute -top-4 right-0 bg-white p-1.5 rounded-lg shadow-sm border border-gray-100 animate-bounce"><i data-lucide="file-text" class="w-4 h-4 text-blue-900"></i></div>
+                           <div class="absolute top-0 -left-2 bg-white p-1.5 rounded-lg shadow-sm border border-gray-100 animate-bounce animation-delay-2000"><i data-lucide="image" class="w-4 h-4 text-green-600"></i></div>
+                      </div>
+                 </div>
+
+                 <div class="grid grid-cols-3 gap-4 w-full">
+                     <div class="flex flex-col items-center space-y-2">
+                         <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                             <i data-lucide="file-text" class="w-6 h-6 text-gray-700"></i>
+                         </div>
+                         <p class="text-[9px] text-center font-bold text-gray-700">Welcome<br>Letter</p>
                      </div>
-                     <div class="bg-white p-3 rounded-xl flex flex-col items-center justify-center space-y-2 border border-gray-100 shadow-sm">
-                         <div class="w-8 h-8 bg-blue-50 rounded flex items-center justify-center"><i data-lucide="file-text" class="text-blue-500 w-4 h-4"></i></div>
-                         <p class="text-[9px] text-center font-medium">Sale<br>Deed</p>
+                     <div class="flex flex-col items-center space-y-2">
+                         <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                             <i data-lucide="file-badge" class="w-6 h-6 text-gray-700"></i>
+                         </div>
+                         <p class="text-[9px] text-center font-bold text-gray-700">Allotment<br>Letter</p>
                      </div>
-                     <div class="bg-white p-3 rounded-xl flex flex-col items-center justify-center space-y-2 border border-gray-100 shadow-sm">
-                         <div class="w-8 h-8 bg-green-50 rounded flex items-center justify-center"><i data-lucide="file-check" class="text-green-500 w-4 h-4"></i></div>
-                         <p class="text-[9px] text-center font-medium">Payment<br>Receipts</p>
+                     <div class="flex flex-col items-center space-y-2">
+                         <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                             <i data-lucide="receipt" class="w-6 h-6 text-gray-700"></i>
+                         </div>
+                         <p class="text-[9px] text-center font-bold text-gray-700">Payment<br>Receipts</p>
+                     </div>
+                     <div class="flex flex-col items-center space-y-2">
+                         <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                             <i data-lucide="help-circle" class="w-6 h-6 text-gray-700"></i>
+                         </div>
+                         <p class="text-[9px] text-center font-bold text-gray-700">FAQ</p>
+                     </div>
+                     <div class="flex flex-col items-center space-y-2">
+                         <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                             <i data-lucide="scroll-text" class="w-6 h-6 text-gray-700"></i>
+                         </div>
+                         <p class="text-[9px] text-center font-bold text-gray-700">Statement<br>of Account</p>
                      </div>
                  </div>
             </div>
@@ -589,7 +692,7 @@
     <!-- ================= BOTTOM NAVIGATION ================= -->
     <div id="bottom-nav" class="absolute bottom-0 w-full bg-white border-t border-gray-100 rounded-t-[2rem] px-4 py-3 z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.05)] flex justify-between items-end transition-transform duration-300 translate-y-full">
         
-        <button onclick="switchTab('screen-home', this)" class="nav-item active flex flex-col items-center space-y-1 w-1/5">
+        <button onclick="switchTab('screen-property-detail', this)" class="nav-item flex flex-col items-center space-y-1 w-1/5 text-gray-400 hover:text-blue-900">
             <i data-lucide="home" class="w-6 h-6"></i>
             <span class="text-[9px] font-medium">Property</span>
         </button>
@@ -599,11 +702,24 @@
             <span class="text-[9px] font-medium text-center leading-none">Construction</span>
         </button>
 
-        <!-- Center Floating Button -->
+        <!-- Center LOGO Button (Triggers DASHBOARD) -->
         <div class="relative -top-8 w-1/5 flex justify-center">
-            <button onclick="toggleQuickActions()" class="w-14 h-14 bg-white rounded-full shadow-2xl flex items-center justify-center border border-gray-50 p-1 fab-pulse group">
-                <div class="w-full h-full bg-blue-900 rounded-full flex items-center justify-center text-white group-hover:bg-blue-800 transition transform duration-200" id="plus-icon">
-                     <i data-lucide="plus" class="w-8 h-8 transition-transform duration-300"></i>
+            <button onclick="switchTab('screen-dashboard', this)" class="w-14 h-14 bg-white rounded-full shadow-2xl flex items-center justify-center border border-gray-50 p-1 fab-pulse group overflow-hidden relative">
+                <!-- Inner Blue Circle -->
+                <div class="w-full h-full bg-white rounded-full flex items-center justify-center transition transform duration-200 p-2">
+                     <!-- Custom SVG Logo constructed from paths to match the Propel Labs House/Phone logo -->
+                     <svg viewBox="0 0 24 24" fill="none" class="w-full h-full">
+                        <!-- Phone Frame -->
+                        <rect x="5" y="3" width="14" height="18" rx="2" stroke="#1E3A8A" stroke-width="2" />
+                        <!-- Roof -->
+                        <path d="M2 9 L12 3 L22 9" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <!-- Play Triangle -->
+                        <path d="M10 10 L15 13 L10 16 Z" fill="#F97316" />
+                        <!-- Swoosh/Arrow at bottom -->
+                        <path d="M3 17 Q 12 23 21 15" stroke="#1E3A8A" stroke-width="2" fill="none" stroke-linecap="round" />
+                        <!-- Bottom Button on Phone -->
+                        <circle cx="12" cy="18" r="1" fill="#1E3A8A" />
+                     </svg>
                 </div>
             </button>
         </div>
@@ -654,27 +770,9 @@
         </div>
     </div>
 
-    <!-- Quick Actions Menu (Plus Button) -->
-    <div id="overlay-quick" class="absolute bottom-24 left-0 w-full flex justify-center z-[45] pointer-events-none opacity-0 transition-opacity duration-300">
-        <div class="flex space-x-4 pointer-events-auto transform translate-y-4 transition-transform duration-300" id="quick-buttons">
-            <button onclick="toggleQuickActions(); switchTab('screen-contact', document.querySelectorAll('.nav-item')[3]); toggleLogRequest();" class="flex flex-col items-center space-y-1 group">
-                <div class="w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center border border-blue-100 text-blue-900 group-hover:bg-blue-900 group-hover:text-white transition">
-                    <i data-lucide="file-plus" class="w-5 h-5"></i>
-                </div>
-                <span class="text-[10px] font-bold text-blue-900 bg-white/80 px-2 py-0.5 rounded backdrop-blur">Log Ticket</span>
-            </button>
-            <button onclick="toggleQuickActions(); switchTab('screen-refer', document.querySelectorAll('.nav-item')[2]); openReferPopup();" class="flex flex-col items-center space-y-1 group">
-                <div class="w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center border border-blue-100 text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition">
-                    <i data-lucide="users" class="w-5 h-5"></i>
-                </div>
-                <span class="text-[10px] font-bold text-blue-900 bg-white/80 px-2 py-0.5 rounded backdrop-blur">Refer</span>
-            </button>
-        </div>
-    </div>
-
     <!-- Referral Popup -->
-    <div id="popup-refer" class="absolute inset-0 z-[60] bg-black/50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-3xl w-full max-w-sm p-6 relative animate-slide-up shadow-2xl">
+    <div id="popup-refer" class="absolute inset-0 z-[60] bg-black/50 hidden flex items-center justify-center p-4 backdrop-blur-sm overflow-y-auto">
+        <div class="bg-white rounded-3xl w-full max-w-sm p-6 relative animate-slide-up shadow-2xl my-auto">
             <button onclick="closeReferPopup()" class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"><i data-lucide="x" class="w-6 h-6 text-gray-800"></i></button>
             
             <div class="text-center mb-6">
@@ -685,29 +783,67 @@
             </div>
 
             <form onsubmit="event.preventDefault(); submitReferral();" class="space-y-4">
+                <!-- Name -->
                 <div>
                     <label class="text-xs text-gray-500 ml-1">Name <span class="text-red-500">*</span></label>
-                    <input type="text" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-blue-900 outline-none text-sm" placeholder="Friend's Name" required>
-                </div>
-                <div>
-                    <label class="text-xs text-gray-500 ml-1">Email Address <span class="text-red-500">*</span></label>
-                    <input type="email" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-blue-900 outline-none text-sm" placeholder="friend@gmail.com" required>
-                </div>
-                <div>
-                    <label class="text-xs text-gray-500 ml-1">Phone <span class="text-red-500">*</span></label>
-                    <input type="tel" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-blue-900 outline-none text-sm" required>
-                </div>
-                <div>
-                    <label class="text-xs text-gray-500 ml-1">Project Interested <span class="text-red-500">*</span></label>
-                    <select class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-blue-900 outline-none text-sm bg-white">
-                        <option>Property 1</option>
-                        <option>Property 2</option>
-                    </select>
+                    <input type="text" class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white" placeholder="Friend's Name" required>
                 </div>
                 
-                <button class="w-full bg-blue-900 text-white font-bold py-3 rounded-xl shadow-lg mt-2 flex justify-center items-center group">
+                <!-- Email -->
+                <div>
+                    <label class="text-xs text-gray-500 ml-1">Email Address <span class="text-red-500">*</span></label>
+                    <input type="email" class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white" placeholder="friend@gmail.com" required>
+                </div>
+                
+                <!-- Phone -->
+                <div>
+                    <label class="text-xs text-gray-500 ml-1">Phone <span class="text-red-500">*</span></label>
+                    <input type="tel" class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white" required>
+                </div>
+                
+                <!-- Project -->
+                <div>
+                    <label class="text-xs text-gray-500 ml-1">Project Interested <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <select class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white appearance-none">
+                            <option>Select Project</option>
+                            <option>Property 1</option>
+                            <option>Property 2</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="absolute right-3 top-3 w-4 h-4 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <!-- Appointment Type (New) -->
+                <div>
+                    <label class="text-xs text-gray-500 ml-1">Appointment Type <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <select class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white appearance-none">
+                            <option>Select Type</option>
+                            <option>Site Visit</option>
+                            <option>Video Call</option>
+                            <option>Office Visit</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="absolute right-3 top-3 w-4 h-4 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <!-- Date & Time (New) -->
+                <div>
+                    <label class="text-xs text-gray-500 ml-1 mb-1 block">Site Visit Date</label>
+                    <div class="flex space-x-3">
+                        <div class="flex-1 relative">
+                            <input type="date" class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white text-gray-600">
+                            <!-- Native date pickers usually show icon, custom icon logic omitted for native simplicity -->
+                        </div>
+                        <div class="flex-1 relative">
+                            <input type="time" class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white text-gray-600">
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="w-full bg-blue-900 text-white font-bold py-3.5 rounded-xl shadow-lg mt-4 flex justify-center items-center group hover:bg-blue-800 transition-colors">
                     <span>Submit</span>
-                    <i data-lucide="send" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition"></i>
                 </button>
             </form>
         </div>
@@ -722,8 +858,17 @@
         ticketFilter: 'all' // all, pending, completed
     };
 
-    const propertyData = {
+    const propertyDetails = {
         1: {
+            unit: 'A1001',
+            type: '3BHK+3T',
+            sba: '1850 Sq.ft',
+            carpet: '1250 Sq.ft',
+            image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
+            total: '₹1.50 Cr',
+            received: '₹1.20 Cr',
+            balance: '₹30.0 L',
+            outstanding: '₹5.0 L',
             progress: 30,
             status: 'Tower A - 5th Floor Slab',
             images: [
@@ -732,6 +877,15 @@
             ]
         },
         2: {
+            unit: 'B204',
+            type: '2BHK',
+            sba: '1250 Sq.ft',
+            carpet: '950 Sq.ft',
+            image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+            total: '₹95.0 L',
+            received: '₹45.0 L',
+            balance: '₹50.0 L',
+            outstanding: '₹2.0 L',
             progress: 75,
             status: 'Tower B - Interiors',
             images: [
@@ -790,6 +944,7 @@
         }, 2000);
 
         // Init Components
+        renderHomeDetails(); // Initial Render for Default Property
         renderConstruction();
         renderTickets();
     });
@@ -806,7 +961,7 @@
 
         // Close overlays
         closeProfile();
-        closeQuickActions();
+        closeReferPopup();
         
         lucide.createIcons();
         window.scrollTo(0, 0);
@@ -817,18 +972,100 @@
             el.classList.remove('active');
             el.classList.add('text-gray-400');
         });
+        
+        // Handle normal nav items
         if (btnElement && btnElement.classList.contains('nav-item')) {
             btnElement.classList.add('active');
             btnElement.classList.remove('text-gray-400');
+        } 
+        
+        // If switching to Home (Property Details), ensure proper rendering
+        if (screenId === 'screen-home') {
+            renderHomeDetails();
         }
+
         navigateTo(screenId, true);
+    }
+
+    // --- Home (Property Details) Logic ---
+    function switchHomeProperty(id) {
+        appState.propertyId = id;
+        
+        // Button Styles
+        const btn1 = document.getElementById('home-prop-1');
+        const btn2 = document.getElementById('home-prop-2');
+        
+        if (id === 1) {
+            btn1.className = "flex-1 py-2 rounded-full text-xs font-bold bg-blue-900 text-white shadow-sm transition-all";
+            btn2.className = "flex-1 py-2 rounded-full text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all";
+        } else {
+            btn1.className = "flex-1 py-2 rounded-full text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all";
+            btn2.className = "flex-1 py-2 rounded-full text-xs font-bold bg-blue-900 text-white shadow-sm transition-all";
+        }
+        
+        renderHomeDetails();
+    }
+
+    function renderHomeDetails() {
+        const data = propertyDetails[appState.propertyId];
+        
+        // Image
+        const img = document.getElementById('home-prop-img');
+        if(img) img.src = data.image;
+
+        // Unit Summary
+        const unitGrid = document.getElementById('unit-summary-grid');
+        if(unitGrid) {
+            unitGrid.innerHTML = `
+                <div>
+                     <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wide">Unit No</p>
+                     <p class="font-bold text-blue-900 text-sm">${data.unit}</p>
+                </div>
+                 <div>
+                     <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wide">Unit Type</p>
+                     <p class="font-bold text-blue-900 text-sm">${data.type}</p>
+                </div>
+                <div>
+                     <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wide">SBA</p>
+                     <p class="font-bold text-blue-900 text-sm">${data.sba}</p>
+                </div>
+                <div>
+                     <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wide">Carpet</p>
+                     <p class="font-bold text-blue-900 text-sm">${data.carpet}</p>
+                </div>
+            `;
+        }
+
+        // Payment Summary
+        const payGrid = document.getElementById('payment-summary-grid');
+        if(payGrid) {
+            payGrid.innerHTML = `
+                <div>
+                     <p class="text-[10px] text-gray-400 font-bold">Total Cost</p>
+                     <p class="font-bold text-gray-800 text-sm">${data.total}</p>
+                </div>
+                <div>
+                     <p class="text-[10px] text-gray-400 font-bold">Received</p>
+                     <p class="font-bold text-gray-800 text-sm">${data.received}</p>
+                </div>
+                <div>
+                     <p class="text-[10px] text-gray-400 font-bold">Balance</p>
+                     <p class="font-bold text-gray-800 text-sm">${data.balance}</p>
+                </div>
+                 <div>
+                     <p class="text-[10px] text-gray-400 font-bold">Outstanding</p>
+                     <p class="font-bold text-red-500 text-sm">${data.outstanding}</p>
+                </div>
+            `;
+        }
+        
+        lucide.createIcons();
     }
 
     // --- Construction Logic ---
     function switchProperty(id) {
         appState.propertyId = id;
         
-        // Button Styles
         const btn1 = document.getElementById('btn-prop-1');
         const btn2 = document.getElementById('btn-prop-2');
         
@@ -844,13 +1081,12 @@
     }
 
     function renderConstruction() {
-        const data = propertyData[appState.propertyId];
+        const data = propertyDetails[appState.propertyId];
         const card = document.getElementById('construction-card');
         const gallery = document.getElementById('construction-gallery');
         const files = document.getElementById('construction-files');
 
         // 1. Status Card
-        const offset = 100 - data.progress; // Stroke Dashoffset logic
         card.innerHTML = `
             <div>
                 <div class="flex items-center space-x-2 text-blue-900 mb-1">
@@ -991,7 +1227,7 @@
         lucide.createIcons();
     }
 
-    // --- Profile & Quick Actions ---
+    // --- Profile ---
     function openProfile() {
         document.getElementById('overlay-profile').classList.remove('hidden');
     }
@@ -999,36 +1235,9 @@
         document.getElementById('overlay-profile').classList.add('hidden');
     }
 
-    function toggleQuickActions() {
-        const overlay = document.getElementById('overlay-quick');
-        const buttons = document.getElementById('quick-buttons');
-        const icon = document.querySelector('#plus-icon svg'); // Fixed Selector
-
-        if (overlay.style.opacity === '1') {
-            closeQuickActions();
-        } else {
-            overlay.style.opacity = '1';
-            overlay.style.pointerEvents = 'auto';
-            buttons.classList.remove('translate-y-4');
-            if (icon) icon.classList.add('rotate-45');
-        }
-    }
-
-    function closeQuickActions() {
-        const overlay = document.getElementById('overlay-quick');
-        const buttons = document.getElementById('quick-buttons');
-        const icon = document.querySelector('#plus-icon svg'); // Fixed Selector
-        
-        overlay.style.opacity = '0';
-        overlay.style.pointerEvents = 'none';
-        buttons.classList.add('translate-y-4');
-        if(icon) icon.classList.remove('rotate-45');
-    }
-
     // --- Referrals ---
     function openReferPopup() {
         document.getElementById('popup-refer').classList.remove('hidden');
-        closeQuickActions();
     }
     
     function closeReferPopup() {
@@ -1037,11 +1246,10 @@
 
     function submitReferral() {
         closeReferPopup();
-        // Show a brief toast notification logic here if needed, or just close
         alert("Referral Submitted Successfully!");
     }
 
-    // --- Onboarding Render (Restored Logic) ---
+    // --- Onboarding Render ---
     function renderOnboarding(index) {
         currentSlide = index;
         const slide = slides[index];
