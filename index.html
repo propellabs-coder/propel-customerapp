@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Propel Labs Customer App</title>
-
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
+    
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
+    
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+            background-color: #f3f4f6;
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -37,78 +35,37 @@
             max-height: 932px;
             background-color: #F8F9FB;
             position: relative;
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 25px rgba(0,0,0,0.1);
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
         /* Hide Scrollbar */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         /* Animations */
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        .animate-fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
 
         @keyframes slideUp {
-            from {
-                transform: translateY(100%);
-            }
-
-            to {
-                transform: translateY(0);
-            }
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
-
-        .animate-slide-up {
-            animation: slideUp 0.3s ease-out forwards;
-        }
+        .animate-slide-up { animation: slideUp 0.3s ease-out forwards; }
 
         @keyframes blob {
-            0% {
-                transform: translate(0px, 0px) scale(1);
-            }
-
-            33% {
-                transform: translate(30px, -50px) scale(1.1);
-            }
-
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
-            }
-
-            100% {
-                transform: translate(0px, 0px) scale(1);
-            }
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
         }
-
-        .animate-blob {
-            animation: blob 7s infinite;
-        }
-
-        .animation-delay-2000 {
-            animation-delay: 2s;
-        }
+        .animate-blob { animation: blob 7s infinite; }
+        .animation-delay-2000 { animation-delay: 2s; }
 
         /* Screen Management */
         .screen {
@@ -120,1189 +77,927 @@
             left: 0;
             overflow-y: auto;
             background-color: #F8F9FB;
-            padding-bottom: 110px;
-            /* Space for bottom nav */
+            padding-bottom: 110px; /* Space for bottom nav */
             z-index: 10;
         }
-
-        .screen.active {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .screen.full-screen {
-            padding-bottom: 0;
-            z-index: 50;
-        }
+        
+        .screen.active { display: flex; flex-direction: column; }
+        .screen.full-screen { padding-bottom: 0; z-index: 50; }
 
         /* Bottom Nav */
-        .nav-item {
-            transition: all 0.3s;
-        }
-
-        .nav-item.active {
-            color: #1E3A8A;
-        }
-
-        .nav-item.active svg {
-            stroke-width: 2.5px;
-        }
+        .nav-item { transition: all 0.3s; }
+        .nav-item.active { color: #1E3A8A; }
+        .nav-item.active svg { stroke-width: 2.5px; }
 
         /* OTP Input */
-        .otp-input:focus {
-            border-color: #1E3A8A;
-            box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.2);
-        }
+        .otp-input:focus { border-color: #1E3A8A; box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.2); }
 
         /* Circular Progress */
-        .circular-chart {
-            display: block;
-            margin: 0 auto;
-            max-width: 80%;
-            max-height: 250px;
-        }
+        .circular-chart { display: block; margin: 0 auto; max-width: 80%; max-height: 250px; }
+        .circle-bg { fill: none; stroke: #eee; stroke-width: 3.8; }
+        .circle { fill: none; stroke-width: 2.8; stroke-linecap: round; transition: stroke-dasharray 0.6s ease; }
+        .percentage { fill: #1E3A8A; font-family: sans-serif; font-weight: bold; font-size: 0.5em; text-anchor: middle; }
 
-        .circle-bg {
-            fill: none;
-            stroke: #eee;
-            stroke-width: 3.8;
-        }
-
-        .circle {
-            fill: none;
-            stroke-width: 2.8;
-            stroke-linecap: round;
-            transition: stroke-dasharray 0.6s ease;
-        }
-
-        .percentage {
-            fill: #1E3A8A;
-            font-family: sans-serif;
-            font-weight: bold;
-            font-size: 0.5em;
-            text-anchor: middle;
-        }
-
-        .header-curve {
-            border-bottom-left-radius: 2rem;
-            border-bottom-right-radius: 2rem;
-        }
+        .header-curve { border-bottom-left-radius: 2rem; border-bottom-right-radius: 2rem; }
 
         @keyframes pulse-orange {
-            0% {
-                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
-            }
-
-            70% {
-                box-shadow: 0 0 0 10px rgba(245, 158, 11, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
         }
-
-        .fab-pulse {
-            animation: pulse-orange 2s infinite;
-        }
-
+        .fab-pulse { animation: pulse-orange 2s infinite; }
+        
         .popup-input {
             border: 1px solid #E5E7EB;
             transition: all 0.2s;
         }
-
         .popup-input:focus {
             border-color: #1E3A8A;
             ring: 1px solid #1E3A8A;
         }
     </style>
 </head>
-
 <body>
 
-    <div id="app-container">
+<div id="app-container">
+    
+    <!-- ================= SCREENS ================= -->
 
-        <!-- ================= SCREENS ================= -->
-
-        <!-- 1. SPLASH SCREEN -->
-        <div id="screen-splash"
-            class="screen full-screen active bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 items-center justify-center">
-            <div class="flex flex-col items-center animate-fade-in relative z-10">
-                <div
-                    class="absolute inset-0 bg-blue-500/10 blur-[50px] rounded-full w-64 h-64 -top-10 -left-10 animate-blob">
+    <!-- 1. SPLASH SCREEN -->
+    <div id="screen-splash" class="screen full-screen active bg-white items-center justify-center">
+        <div class="flex flex-col items-center animate-fade-in">
+            <div class="relative w-24 h-24 mb-4">
+                <div class="absolute inset-0 border-4 border-blue-900 rounded-3xl flex items-center justify-center">
+                    <div class="w-16 h-1 border-b-2 border-blue-900 absolute top-2"></div>
                 </div>
-                <div
-                    class="absolute inset-0 bg-orange-500/10 blur-[50px] rounded-full w-64 h-64 bottom-0 right-0 animate-blob animation-delay-2000">
+                <div class="absolute inset-0 flex items-center justify-center text-orange-500 pb-2">
+                    <i data-lucide="home" width="40" height="40" stroke-width="2.5"></i>
                 </div>
-
-                <div class="relative w-24 h-24 mb-4">
-                    <div
-                        class="absolute inset-0 border-4 border-white/20 rounded-3xl flex items-center justify-center backdrop-blur-sm bg-white/5">
-                        <div class="w-16 h-1 border-b-2 border-white/20 absolute top-2"></div>
-                    </div>
-                    <div class="absolute inset-0 flex items-center justify-center text-orange-400 pb-2">
-                        <i data-lucide="home" width="40" height="40" stroke-width="2.5"></i>
-                    </div>
-                    <div
-                        class="absolute -bottom-2 -left-4 w-32 h-12 border-b-4 border-white/10 rounded-full transform -rotate-12 opacity-80">
-                    </div>
-                </div>
-                <h1 class="text-3xl font-bold text-white tracking-tight">Propel Labs</h1>
-                <p class="text-white/60 text-xs mt-2 tracking-widest uppercase">Customer Portal</p>
+                <div class="absolute -bottom-2 -left-4 w-32 h-12 border-b-4 border-blue-900 rounded-full transform -rotate-12 opacity-80"></div>
             </div>
+            <h1 class="text-3xl font-bold text-orange-500 tracking-tight">Propel Labs</h1>
         </div>
-
-        <!-- 2. LOGIN SCREEN -->
-        <div id="screen-login" class="screen full-screen bg-white px-8 pt-12 pb-6 relative overflow-hidden">
-            <!-- Background Blobs -->
-            <div
-                class="absolute top-0 left-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob">
-            </div>
-            <div
-                class="absolute top-0 right-0 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000">
-            </div>
-            <div
-                class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob hover:animate-none">
-            </div>
-
-            <div class="w-full flex-1 flex flex-col justify-center animate-fade-in relative z-10">
-                <div class="w-full h-48 mb-6 flex items-center justify-center relative">
-                    <div
-                        class="relative w-64 h-48 bg-white border-2 border-gray-200 rounded-lg shadow-md p-4 flex items-end justify-center overflow-hidden">
-                        <div class="absolute top-4 left-4"><i data-lucide="cloud" class="text-gray-200 w-8 h-8"></i>
-                        </div>
-                        <div
-                            class="w-32 h-32 bg-blue-50 rounded-t-lg border-x border-t border-blue-100 relative z-10 flex flex-col items-center justify-end">
-                            <div class="w-8 h-12 bg-blue-900 rounded-t-sm mb-0"></div>
-                        </div>
-                        <div
-                            class="absolute -right-2 bottom-0 w-16 h-40 bg-gray-100 rounded-t-full z-0 transform rotate-12">
-                        </div>
-                    </div>
-                </div>
-
-                <h2 class="text-2xl font-bold text-blue-900 mb-2">Sign In</h2>
-                <p class="text-gray-500 text-sm mb-6">Please log in to your account</p>
-
-                <form onsubmit="event.preventDefault(); navigateTo('screen-otp-login');" class="space-y-5">
-                    <div>
-                        <div class="flex items-center space-x-2 text-blue-900 mb-1">
-                            <i data-lucide="mail" class="w-4 h-4"></i>
-                            <label class="text-xs font-bold uppercase tracking-wider">Your e-mail</label>
-                        </div>
-                        <input type="email"
-                            class="w-full px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-200 focus:border-blue-900 outline-none transition-all text-sm"
-                            value="ansh@example.com">
-                    </div>
-
-                    <div>
-                        <div class="flex items-center space-x-2 text-blue-900 mb-1">
-                            <i data-lucide="key" class="w-4 h-4"></i>
-                            <label class="text-xs font-bold uppercase tracking-wider">Your password</label>
-                        </div>
-                        <div class="relative">
-                            <input type="password"
-                                class="w-full px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-200 focus:border-blue-900 outline-none transition-all text-sm"
-                                value="password123">
-                            <i data-lucide="eye"
-                                class="w-4 h-4 text-gray-400 absolute right-4 top-4 cursor-pointer"></i>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-end">
-                        <button type="button" onclick="navigateTo('screen-forgot-password')"
-                            class="text-xs text-blue-900 font-bold hover:underline">Forgot your password?</button>
-                    </div>
-
-                    <button type="submit"
-                        class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-800 transition-colors mt-2">
-                        Sign in
-                    </button>
-                </form>
-
-                <div class="mt-auto text-center text-gray-400 text-xs pt-4">
-                    Don't have an account? <span class="text-blue-900 font-bold cursor-pointer hover:underline">Sign
-                        Up</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. LOGIN OTP (New) -->
-        <div id="screen-otp-login" class="screen full-screen bg-white px-8 pt-8">
-            <button onclick="navigateTo('screen-login')" class="mb-4 p-2 -ml-2"><i data-lucide="chevron-left"
-                    class="text-gray-800"></i></button>
-            <div class="flex flex-col items-center text-center animate-fade-in mt-4">
-                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
-                    <i data-lucide="shield-check" class="w-8 h-8 text-blue-900"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">Verify Login</h2>
-                <p class="text-gray-500 text-sm mb-10 px-4">For your security, a one-time password has been sent to your
-                    email.</p>
-
-                <div class="flex justify-center space-x-3 mb-8">
-                    <input type="text" maxlength="1"
-                        class="otp-input w-14 h-16 rounded-xl border-2 border-blue-200 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all"
-                        value="1">
-                    <input type="text" maxlength="1"
-                        class="otp-input w-14 h-16 rounded-xl border-2 border-blue-200 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all"
-                        value="2">
-                    <input type="text" maxlength="1"
-                        class="otp-input w-14 h-16 rounded-xl border-2 border-blue-200 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all"
-                        value="3">
-                    <input type="text" maxlength="1"
-                        class="otp-input w-14 h-16 rounded-xl border-2 border-blue-200 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all"
-                        value="4">
-                </div>
-
-                <div class="bg-blue-50 text-blue-900 px-4 py-1.5 rounded-full text-xs font-bold mb-8 flex items-center">
-                    <i data-lucide="clock" class="w-3 h-3 mr-1.5"></i> 00:21</div>
-
-                <button onclick="navigateTo('screen-dashboard', true)"
-                    class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg">Verify OTP</button>
-                <div class="mt-6 text-sm text-gray-500">Didn't receive code? <button
-                        class="text-blue-900 font-bold ml-1">Resend</button></div>
-            </div>
-        </div>
-
-        <!-- 4. FORGOT PASSWORD -->
-        <div id="screen-forgot-password" class="screen full-screen bg-white px-8 pt-8">
-            <button onclick="navigateTo('screen-login')" class="mb-4 p-2 -ml-2"><i data-lucide="chevron-left"
-                    class="text-gray-800"></i></button>
-            <div class="flex flex-col items-center text-center animate-fade-in mt-4">
-                <div class="w-40 h-40 bg-orange-50 rounded-full flex items-center justify-center mb-6 relative">
-                    <i data-lucide="lock" class="w-16 h-16 text-blue-900 absolute z-10"></i>
-                    <div class="w-24 h-24 bg-blue-100 rounded-full absolute animate-ping opacity-20"></div>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">Forgot Password</h2>
-                <p class="text-gray-500 text-sm mb-8 px-4">Enter your registered email to get a recovery link</p>
-                <form onsubmit="event.preventDefault(); navigateTo('screen-otp');" class="w-full">
-                    <div class="text-left mb-6">
-                        <label class="text-xs font-bold text-gray-500 ml-1 uppercase">Email Address</label>
-                        <input type="email"
-                            class="w-full px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-200 focus:border-blue-900 outline-none mt-1"
-                            placeholder="xyz@gmail.com">
-                    </div>
-                    <button class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg">Send</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- 5. OTP VERIFICATION (Forgot Password) -->
-        <div id="screen-otp" class="screen full-screen bg-white px-8 pt-8">
-            <button onclick="navigateTo('screen-forgot-password')" class="mb-4 p-2 -ml-2"><i data-lucide="chevron-left"
-                    class="text-gray-800"></i></button>
-            <div class="flex flex-col items-center text-center animate-fade-in mt-4">
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">OTP Verification</h2>
-                <p class="text-gray-500 text-sm mb-10 px-4">Enter 4 Digit verification code sent to your email id</p>
-
-                <div class="flex justify-center space-x-3 mb-8">
-                    <input type="text" maxlength="1"
-                        class="otp-input w-14 h-16 rounded-xl border-2 border-gray-100 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all">
-                    <input type="text" maxlength="1"
-                        class="otp-input w-14 h-16 rounded-xl border-2 border-gray-100 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all">
-                    <input type="text" maxlength="1"
-                        class="otp-input w-14 h-16 rounded-xl border-2 border-gray-100 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all">
-                    <input type="text" maxlength="1"
-                        class="otp-input w-14 h-16 rounded-xl border-2 border-gray-100 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all">
-                </div>
-
-                <div class="bg-blue-50 text-blue-900 px-4 py-1.5 rounded-full text-xs font-bold mb-8 flex items-center">
-                    <i data-lucide="clock" class="w-3 h-3 mr-1.5"></i> 00:21</div>
-
-                <button onclick="navigateTo('screen-reset-password')"
-                    class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg">Verify OTP</button>
-                <div class="mt-6 text-sm text-gray-500">Didn't receive OTP? <button
-                        class="text-blue-900 font-bold ml-1">Resend</button></div>
-            </div>
-        </div>
-
-        <!-- 6. RESET PASSWORD -->
-        <div id="screen-reset-password" class="screen full-screen bg-white px-8 pt-8">
-            <button onclick="navigateTo('screen-otp')" class="mb-4 p-2 -ml-2"><i data-lucide="chevron-left"
-                    class="text-gray-800"></i></button>
-            <div class="flex flex-col items-center text-center animate-fade-in mt-4">
-                <div class="w-full h-40 mb-6 flex justify-center">
-                    <div
-                        class="relative w-32 h-full bg-blue-900 rounded-xl border-4 border-gray-800 flex flex-col items-center pt-4">
-                        <i data-lucide="lock" class="text-white w-10 h-10"></i>
-                        <div class="w-16 h-1 bg-white/20 rounded mt-4"></div>
-                        <div class="w-12 h-1 bg-white/20 rounded mt-2"></div>
-                    </div>
-                </div>
-
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">Reset Password</h2>
-                <p class="text-gray-500 text-sm mb-8 px-4">Enter at least 6 characters with uppercase, lowercase letters
-                </p>
-
-                <form onsubmit="event.preventDefault(); navigateTo('screen-login');" class="w-full space-y-5 text-left">
-                    <div class="relative">
-                        <label class="text-xs font-bold text-gray-500 ml-1 uppercase">New Password</label>
-                        <input type="password"
-                            class="w-full px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-200 focus:border-blue-900 outline-none mt-1">
-                        <i data-lucide="eye-off" class="w-5 h-5 text-gray-400 absolute right-4 top-9"></i>
-                    </div>
-                    <div class="relative">
-                        <label class="text-xs font-bold text-gray-500 ml-1 uppercase">Confirm Password</label>
-                        <input type="password"
-                            class="w-full px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-200 focus:border-blue-900 outline-none mt-1">
-                        <i data-lucide="eye-off" class="w-5 h-5 text-gray-400 absolute right-4 top-9"></i>
-                    </div>
-                    <button type="submit"
-                        class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg mt-4">Reset
-                        Password</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- ================= MAIN APP SCREENS ================= -->
-
-        <!-- 7. DASHBOARD (HOME PAGE) - CENTER BUTTON DESTINATION -->
-        <div id="screen-dashboard" class="screen">
-            <div
-                class="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-900 pt-10 pb-12 px-6 header-curve relative z-0 shadow-xl">
-                <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20">
-                </div>
-                <div class="flex justify-between items-start relative z-10">
-                    <div>
-                        <div class="flex items-center space-x-2 text-white/90">
-                            <span class="text-lg">Welcome to Terminus</span>
-                            <span class="text-xl">👋🏻</span>
-                        </div>
-                        <p class="text-white text-xl font-bold mt-1">Ansh Sharma</p>
-                    </div>
-                    <div onclick="openProfile()"
-                        class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white text-xs font-semibold bg-white/10 cursor-pointer active:scale-95 transition-transform">
-                        AS</div>
-                </div>
-            </div>
-
-            <div class="px-5 -mt-8 relative z-10 space-y-6 pb-24">
-
-                <!-- Hero Card -->
-                <div onclick="navigateTo('screen-property-detail', true); switchTab('screen-property-detail', document.querySelector('.nav-item'))"
-                    class="bg-white rounded-2xl p-2 shadow-lg cursor-pointer transform transition hover:scale-[1.02]">
-                    <div class="relative h-48 rounded-xl overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
-                            class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent">
-                        </div>
-                        <div class="absolute bottom-4 left-4 text-white">
-                            <p class="font-bold text-lg">Property</p>
-                            <p class="text-xs opacity-90">Kanakapura Road, Bengaluru</p>
-                        </div>
-                        <button
-                            class="absolute bottom-4 right-4 bg-white/20 backdrop-blur-md border border-white/40 text-white text-[10px] px-3 py-1.5 rounded-lg">View
-                            more</button>
-                    </div>
-                </div>
-
-                <!-- Properties Scroll -->
-                <div>
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="text-gray-900 font-bold text-sm">My Properties</h3>
-                        <button class="text-gray-400 text-xs">View All</button>
-                    </div>
-                    <div class="flex space-x-3 overflow-x-auto no-scrollbar pb-2">
-                        <div class="min-w-[160px] bg-white rounded-xl p-2 shadow-sm border border-gray-100">
-                            <div class="h-24 rounded-lg bg-gray-200 mb-2 overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=400&q=80"
-                                    class="w-full h-full object-cover">
-                            </div>
-                            <h4 class="text-[10px] text-gray-500">Project Name <span
-                                    class="text-blue-900 font-bold">Property 1</span></h4>
-                            <div class="flex mt-1 text-[9px] text-gray-400 space-x-2">
-                                <span>Unit: <strong>A1001</strong></span>
-                                <span><strong>3BHK</strong></span>
-                            </div>
-                        </div>
-                        <div class="min-w-[160px] bg-white rounded-xl p-2 shadow-sm border border-gray-100">
-                            <div class="h-24 rounded-lg bg-gray-200 mb-2 overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&q=80"
-                                    class="w-full h-full object-cover">
-                            </div>
-                            <h4 class="text-[10px] text-gray-500">Project Name <span
-                                    class="text-blue-900 font-bold">Property 2</span></h4>
-                            <div class="flex mt-1 text-[9px] text-gray-400 space-x-2">
-                                <span>Unit: <strong>B204</strong></span>
-                                <span><strong>2BHK</strong></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Refer Banner -->
-                <div
-                    class="bg-blue-900 rounded-2xl p-4 flex items-center justify-between relative overflow-hidden text-white shadow-lg">
-                    <div class="absolute -right-4 top-0 w-24 h-24 bg-orange-500 rounded-full opacity-20"></div>
-                    <div class="relative z-10 w-2/3">
-                        <div class="text-[10px] bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded w-fit mb-1">Earn
-                            Rewards</div>
-                        <p class="text-sm font-bold leading-tight mb-2">Refer your Friends & Family</p>
-                        <button onclick="openReferPopup()"
-                            class="bg-white text-blue-900 text-xs font-bold px-4 py-1.5 rounded-lg shadow-sm">Refer
-                            Now</button>
-                    </div>
-                    <div class="w-1/3 flex justify-end">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3670/3670209.png"
-                            class="w-16 h-16 drop-shadow-lg filter brightness-110">
-                    </div>
-                </div>
-
-                <!-- Video -->
-                <div class="relative h-36 rounded-2xl overflow-hidden shadow-md group">
-                    <img src="https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=800&q=80"
-                        class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <div
-                            class="flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/30">
-                            <i data-lucide="play" class="w-4 h-4 text-white fill-white"></i>
-                            <span class="text-white font-medium text-xs">Play Video</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 8. PROPERTY DETAILS (TAB 1) -->
-        <div id="screen-property-detail" class="screen">
-            <div
-                class="bg-white/90 pt-12 px-4 pb-2 flex flex-col items-center sticky top-0 z-20 backdrop-blur-md border-b border-gray-100/50">
-                <div class="w-full flex items-center mb-4">
-                    <button onclick="navigateTo('screen-dashboard', true)" class="p-2 mr-2"><i
-                            data-lucide="chevron-left" class="text-gray-800"></i></button>
-                    <h2 class="text-lg font-bold text-gray-800 flex-1 text-center pr-10">Property</h2>
-                </div>
-                <div class="flex space-x-2 mb-2">
-                    <button id="home-prop-1" onclick="switchHomeProperty(1)"
-                        class="px-6 py-1.5 rounded-full text-xs font-bold bg-blue-900 text-white shadow-sm transition-all">Property
-                        01</button>
-                    <button id="home-prop-2" onclick="switchHomeProperty(2)"
-                        class="px-6 py-1.5 rounded-full text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all">Property
-                        02</button>
-                </div>
-            </div>
-
-            <div class="p-5 space-y-6 pb-24 animate-fade-in no-scrollbar overflow-y-auto">
-
-                <!-- Main Image -->
-                <div class="rounded-2xl overflow-hidden h-48 shadow-lg relative">
-                    <img id="home-prop-img"
-                        src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
-                        class="w-full h-full object-cover">
-                </div>
-
-                <!-- Unit Summary -->
-                <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 relative overflow-hidden">
-                    <h3 class="font-bold text-gray-800 mb-4 text-sm">Unit Summary</h3>
-                    <div class="flex justify-between items-start relative z-10">
-                        <div class="grid grid-cols-2 gap-y-4 gap-x-6 w-3/4" id="unit-summary-grid">
-                            <!-- Injected via JS -->
-                        </div>
-                        <!-- Small Illustration -->
-                        <div
-                            class="w-16 h-20 bg-blue-50 rounded-lg flex items-center justify-center border border-blue-100 absolute right-0 bottom-0">
-                            <i data-lucide="smartphone" class="w-10 h-10 text-blue-300"></i>
-                            <div
-                                class="absolute -right-2 -bottom-2 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center border-2 border-white">
-                                <i data-lucide="calendar" class="w-4 h-4 text-green-600"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Payment Summary -->
-                <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 relative">
-                    <h3 class="font-bold text-gray-800 mb-4 text-sm">Payment Summary</h3>
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="relative w-16 h-16 mr-4">
-                            <div class="absolute inset-0 bg-blue-50 rounded-full"></div>
-                            <i data-lucide="smartphone" class="w-8 h-8 text-blue-900 absolute top-3 left-4 z-10"></i>
-                            <div
-                                class="absolute bottom-2 right-0 bg-white shadow-md rounded-md p-1 border border-gray-100 z-20">
-                                <div class="w-3 h-2 bg-blue-900 rounded-sm"></div>
-                            </div>
-                        </div>
-
-                        <div class="flex-1 grid grid-cols-2 gap-4" id="payment-summary-grid">
-                            <!-- Injected via JS -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Installments -->
-                <div>
-                    <h3 class="font-bold text-gray-800 mb-3 text-sm">Installments</h3>
-                    <div class="flex space-x-3 overflow-x-auto no-scrollbar pb-2">
-                        <div class="min-w-[150px] bg-white rounded-xl p-3 border border-gray-100 shadow-sm relative">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-[10px] font-bold text-gray-800">On Booking</span>
-                                <div class="w-8 h-8 rounded-lg overflow-hidden bg-gray-100"><img
-                                        src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=100&q=60"
-                                        class="w-full h-full object-cover"></div>
-                            </div>
-                            <p class="text-[9px] text-gray-400">Total Amount</p>
-                            <p class="font-bold text-sm text-gray-800">₹10,00,000</p>
-                            <div class="mt-2 flex justify-between items-end">
-                                <div>
-                                    <p class="text-[8px] text-gray-400">Due Date</p>
-                                    <p class="text-[9px] font-bold text-gray-600">01 Jan 2024</p>
-                                </div>
-                                <span
-                                    class="bg-green-100 text-green-700 text-[8px] px-2 py-0.5 rounded font-bold">PAID</span>
-                            </div>
-                        </div>
-                        <div class="min-w-[150px] bg-white rounded-xl p-3 border border-gray-100 shadow-sm relative">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-[10px] font-bold text-gray-800">On Agreement</span>
-                                <div class="w-8 h-8 rounded-lg overflow-hidden bg-gray-100"><img
-                                        src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=100&q=60"
-                                        class="w-full h-full object-cover"></div>
-                            </div>
-                            <p class="text-[9px] text-gray-400">Total Amount</p>
-                            <p class="font-bold text-sm text-gray-800">₹25,00,000</p>
-                            <div class="mt-2 flex justify-between items-end">
-                                <div>
-                                    <p class="text-[8px] text-gray-400">Due Date</p>
-                                    <p class="text-[9px] font-bold text-gray-600">15 Feb 2024</p>
-                                </div>
-                                <button class="bg-blue-900 text-white text-[8px] px-2 py-1 rounded shadow-sm">Pay
-                                    Now</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Payment Acknowledgement -->
-                <div>
-                    <h3 class="font-bold text-gray-800 mb-3 text-sm">Payment <span
-                            class="text-blue-900">Acknowledgement</span></h3>
-                    <div
-                        class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center">
-                                <i data-lucide="file-check" class="text-orange-500 w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <p class="font-bold text-gray-800 text-xs">Property 1</p>
-                                <p class="text-[10px] text-blue-900 font-bold">Pay ₹10,00,000</p>
-                            </div>
-                        </div>
-                        <button
-                            class="bg-blue-900 text-white text-[10px] px-3 py-1.5 rounded-lg flex items-center shadow-md hover:bg-blue-800">
-                            <i data-lucide="download" class="w-3 h-3 mr-1"></i> Download
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Debit/Credit Notes -->
-                <div>
-                    <h3 class="font-bold text-gray-800 mb-3 text-sm">Debit/Credit <span
-                            class="text-blue-900">Notes</span></h3>
-                    <div class="flex space-x-3 overflow-x-auto no-scrollbar pb-2">
-                        <div class="min-w-[140px] bg-red-50 rounded-xl p-3 border border-red-100">
-                            <div class="flex justify-between mb-2">
-                                <span class="text-[9px] font-bold text-blue-900">Debit Note</span>
-                                <div class="w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-sm"><i
-                                        data-lucide="file-minus" class="w-2 h-2 text-red-500"></i></div>
-                            </div>
-                            <p class="text-[9px] text-gray-500">DN-000124</p>
-                            <p class="font-bold text-xs text-gray-800 mt-1">₹5,234</p>
-                            <p class="text-[8px] text-gray-400 mt-2">Due: 10 Jan</p>
-                        </div>
-                        <div class="min-w-[140px] bg-blue-50 rounded-xl p-3 border border-blue-100">
-                            <div class="flex justify-between mb-2">
-                                <span class="text-[9px] font-bold text-blue-900">Credit Note</span>
-                                <div class="w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-sm"><i
-                                        data-lucide="file-plus" class="w-2 h-2 text-green-500"></i></div>
-                            </div>
-                            <p class="text-[9px] text-gray-500">CN-00055</p>
-                            <p class="font-bold text-xs text-gray-800 mt-1">₹12,000</p>
-                            <p class="text-[8px] text-gray-400 mt-2">Adj: 12 Jan</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Document Repository -->
-                <div class="flex flex-col items-center">
-                    <h3 class="font-bold text-gray-800 mb-4 text-sm w-full text-left">Document <span
-                            class="text-blue-900">Repository</span></h3>
-
-                    <!-- Center Folder Graphic -->
-                    <div class="relative w-32 h-32 mb-6">
-                        <div class="absolute inset-0 bg-yellow-100 rounded-full blur-xl opacity-50"></div>
-                        <div class="relative z-10 flex flex-col items-center">
-                            <i data-lucide="folder-open" class="w-20 h-20 text-yellow-400 fill-yellow-100"></i>
-                            <div
-                                class="absolute -top-4 right-0 bg-white p-1.5 rounded-lg shadow-sm border border-gray-100 animate-bounce">
-                                <i data-lucide="file-text" class="w-4 h-4 text-blue-900"></i></div>
-                            <div
-                                class="absolute top-0 -left-2 bg-white p-1.5 rounded-lg shadow-sm border border-gray-100 animate-bounce animation-delay-2000">
-                                <i data-lucide="image" class="w-4 h-4 text-green-600"></i></div>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-4 w-full">
-                        <div class="flex flex-col items-center space-y-2">
-                            <div
-                                class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
-                                <i data-lucide="file-text" class="w-6 h-6 text-gray-700"></i>
-                            </div>
-                            <p class="text-[9px] text-center font-bold text-gray-700">Welcome<br>Letter</p>
-                        </div>
-                        <div class="flex flex-col items-center space-y-2">
-                            <div
-                                class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
-                                <i data-lucide="file-badge" class="w-6 h-6 text-gray-700"></i>
-                            </div>
-                            <p class="text-[9px] text-center font-bold text-gray-700">Allotment<br>Letter</p>
-                        </div>
-                        <div class="flex flex-col items-center space-y-2">
-                            <div
-                                class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
-                                <i data-lucide="receipt" class="w-6 h-6 text-gray-700"></i>
-                            </div>
-                            <p class="text-[9px] text-center font-bold text-gray-700">Payment<br>Receipts</p>
-                        </div>
-                        <div class="flex flex-col items-center space-y-2">
-                            <div
-                                class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
-                                <i data-lucide="help-circle" class="w-6 h-6 text-gray-700"></i>
-                            </div>
-                            <p class="text-[9px] text-center font-bold text-gray-700">FAQ</p>
-                        </div>
-                        <div class="flex flex-col items-center space-y-2">
-                            <div
-                                class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
-                                <i data-lucide="scroll-text" class="w-6 h-6 text-gray-700"></i>
-                            </div>
-                            <p class="text-[9px] text-center font-bold text-gray-700">Statement<br>of Account</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 9. CONSTRUCTION -->
-        <div id="screen-construction" class="screen">
-            <div
-                class="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-950 pt-12 px-6 pb-16 rounded-b-[2rem] text-center shadow-lg relative overflow-hidden">
-                <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20">
-                </div>
-                <div class="absolute -top-10 -left-10 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
-                <div class="absolute top-10 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl"></div>
-                <h2 class="text-white font-bold text-lg">Construction Progress</h2>
-                <div class="flex justify-center mt-4 space-x-2">
-                    <button id="btn-prop-1" onclick="switchProperty(1)"
-                        class="px-4 py-1.5 bg-white text-blue-900 rounded-full text-xs font-bold transition-all">Property
-                        01</button>
-                    <button id="btn-prop-2" onclick="switchProperty(2)"
-                        class="px-4 py-1.5 bg-white/20 text-white rounded-full text-xs font-medium transition-all">Property
-                        02</button>
-                </div>
-            </div>
-
-            <div class="px-5 -mt-10 pb-24 space-y-6">
-                <div class="bg-white rounded-2xl p-6 shadow-lg flex items-center justify-between animate-fade-in"
-                    id="construction-card">
-                    <!-- Injected via JS -->
-                </div>
-
-                <div class="grid grid-cols-2 gap-4" id="construction-gallery">
-                    <!-- Injected via JS -->
-                </div>
-
-                <div class="space-y-3" id="construction-files">
-                    <!-- Injected via JS -->
-                </div>
-            </div>
-        </div>
-
-        <!-- 10. REFER FRIEND -->
-        <div id="screen-refer" class="screen">
-            <div
-                class="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-950 pt-12 pb-10 px-6 rounded-b-[2rem] text-center text-white shadow-lg relative overflow-hidden">
-                <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20">
-                </div>
-                <h2 class="font-bold text-lg mb-4">Refer a Friend</h2>
-                <div class="flex justify-center items-center space-x-4 mb-6">
-                    <div class="flex flex-col items-center">
-                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-1"><i
-                                data-lucide="user" class="text-blue-900 w-6 h-6"></i></div>
-                        <span class="text-[9px]">Invite</span>
-                    </div>
-                    <i data-lucide="arrow-right" class="w-4 h-4 text-white/50"></i>
-                    <div class="flex flex-col items-center">
-                        <div
-                            class="w-16 h-16 bg-white border-4 border-orange-400 rounded-full flex items-center justify-center mb-1 scale-110">
-                            <i data-lucide="users" class="text-orange-500 w-8 h-8"></i></div>
-                        <span class="text-[9px] font-bold">They Join</span>
-                    </div>
-                    <i data-lucide="arrow-right" class="w-4 h-4 text-white/50"></i>
-                    <div class="flex flex-col items-center">
-                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-1"><i
-                                data-lucide="gift" class="text-blue-900 w-6 h-6"></i></div>
-                        <span class="text-[9px]">Reward</span>
-                    </div>
-                </div>
-                <p class="text-xs opacity-80 max-w-xs mx-auto">Invite a friend and earn up to <span
-                        class="font-bold text-orange-400">₹25,000/-</span> on every successful booking.</p>
-            </div>
-
-            <div class="px-6 mt-6 pb-24">
-                <div class="flex justify-between items-end mb-4">
-                    <h3 class="font-bold text-gray-800 text-lg">Existing Referrals</h3>
-                    <button onclick="openReferPopup()"
-                        class="bg-blue-900 text-white text-xs px-4 py-2 rounded-lg font-bold shadow-md">Refer
-                        New</button>
-                </div>
-
-                <div class="space-y-4">
-                    <div
-                        class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
-                        <div>
-                            <p class="text-sm font-bold text-gray-800">Shreya Gupta</p>
-                            <p class="text-[10px] text-gray-400">Project: Property 1</p>
-                        </div>
-                        <div class="text-right">
-                            <span
-                                class="bg-green-100 text-green-700 text-[9px] px-2 py-1 rounded font-bold">Completed</span>
-                            <p class="text-[10px] text-gray-400 mt-1">Reward Sent</p>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
-                        <div>
-                            <p class="text-sm font-bold text-gray-800">Rahul Verma</p>
-                            <p class="text-[10px] text-gray-400">Project: Property 2</p>
-                        </div>
-                        <div class="text-right">
-                            <span class="bg-yellow-100 text-yellow-700 text-[9px] px-2 py-1 rounded font-bold">In
-                                Progress</span>
-                            <p class="text-[10px] text-gray-400 mt-1">Site Visit Done</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 11. CONTACT -->
-        <div id="screen-contact" class="screen">
-            <div
-                class="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-950 pt-12 pb-6 px-6 rounded-b-[2rem] text-center text-white shadow-lg relative overflow-hidden">
-                <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20">
-                </div>
-                <h2 class="font-bold text-lg">Contact Us</h2>
-            </div>
-
-            <div class="px-5 -mt-4 pb-24 space-y-6">
-                <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
-                    <p class="text-sm text-gray-600 mb-4">We are one step away</p>
-                    <div
-                        class="w-16 h-16 bg-blue-100 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl">
-                        👩🏻‍💼</div>
-                    <h3 class="font-bold text-gray-800">Sowmya R</h3>
-                    <p class="text-xs text-blue-900 font-medium mb-4">CRM Representative</p>
-                    <p class="text-xs text-gray-500 mb-4">crm.example@propellabs.com</p>
-                    <a href="tel:08069132200"
-                        class="block w-full bg-blue-900 text-white font-bold py-3 rounded-xl shadow-md flex justify-center items-center"><i
-                            data-lucide="phone" class="w-4 h-4 mr-2"></i> Call: 08069132200</a>
-                </div>
-
-                <div>
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="font-bold text-gray-800 text-lg">Service Request</h3>
-                        <button onclick="toggleLogRequest()"
-                            class="text-blue-900 text-xs font-bold border border-blue-900 px-3 py-1 rounded transition-colors hover:bg-blue-50"
-                            id="btn-log-req">Log Request</button>
-                    </div>
-
-                    <!-- Ticket List View -->
-                    <div id="ticket-view">
-                        <div class="bg-gray-200 p-1 rounded-lg flex mb-4 text-xs font-medium">
-                            <button onclick="filterTickets('all')"
-                                class="flex-1 bg-white shadow-sm py-1.5 rounded text-blue-900 transition-all"
-                                id="tab-all">All</button>
-                            <button onclick="filterTickets('pending')"
-                                class="flex-1 py-1.5 text-gray-500 hover:text-blue-900 transition-all"
-                                id="tab-pending">Pending</button>
-                            <button onclick="filterTickets('completed')"
-                                class="flex-1 py-1.5 text-gray-500 hover:text-blue-900 transition-all"
-                                id="tab-completed">Completed</button>
-                        </div>
-
-                        <div class="space-y-3" id="ticket-list">
-                            <!-- Injected -->
-                        </div>
-                    </div>
-
-                    <!-- Log Request Form -->
-                    <div id="form-view" class="hidden">
-                        <form onsubmit="event.preventDefault(); submitTicket();"
-                            class="space-y-4 bg-white p-4 rounded-xl border border-gray-100 shadow-sm animate-fade-in">
-                            <div>
-                                <label class="text-xs text-gray-500 ml-1">Request Type</label>
-                                <select
-                                    class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-blue-900 outline-none text-sm bg-white mt-1">
-                                    <option>Select Type</option>
-                                    <option>Billing Issue</option>
-                                    <option>Document Request</option>
-                                    <option>Maintenance</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="text-xs text-gray-500 ml-1">Subject</label>
-                                <input type="text"
-                                    class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-blue-900 outline-none text-sm mt-1"
-                                    placeholder="Brief subject">
-                            </div>
-                            <div>
-                                <label class="text-xs text-gray-500 ml-1">Description</label>
-                                <textarea
-                                    class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-blue-900 outline-none text-sm mt-1 h-24"
-                                    placeholder="Describe your issue..."></textarea>
-                            </div>
-                            <button class="w-full bg-blue-900 text-white font-bold py-3 rounded-xl shadow-lg">Submit
-                                Request</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= BOTTOM NAVIGATION ================= -->
-        <!-- ================= BOTTOM NAVIGATION ================= -->
-        <div id="bottom-nav"
-            class="absolute bottom-0 w-full bg-white/90 backdrop-blur-xl border-t border-white/40 rounded-t-[2rem] px-4 py-3 z-50 shadow-[0_-5px_30px_rgba(0,0,0,0.1)] flex justify-between items-end transition-transform duration-300 translate-y-full">
-
-            <button onclick="switchTab('screen-property-detail', this)"
-                class="nav-item flex flex-col items-center space-y-1 w-1/5 text-gray-400 hover:text-blue-900">
-                <i data-lucide="home" class="w-6 h-6"></i>
-                <span class="text-[9px] font-medium">Property</span>
-            </button>
-
-            <button onclick="switchTab('screen-construction', this)"
-                class="nav-item text-gray-400 hover:text-blue-900 flex flex-col items-center space-y-1 w-1/5">
-                <i data-lucide="hard-hat" class="w-6 h-6"></i>
-                <span class="text-[9px] font-medium text-center leading-none">Construction</span>
-            </button>
-
-            <!-- Center LOGO Button (Triggers DASHBOARD) -->
-            <div class="relative -top-8 w-1/5 flex justify-center">
-                <button onclick="switchTab('screen-dashboard', this)"
-                    class="w-14 h-14 bg-white rounded-full shadow-2xl flex items-center justify-center border border-gray-50 p-1 fab-pulse group overflow-hidden relative">
-                    <!-- Inner Blue Circle -->
-                    <div
-                        class="w-full h-full bg-white rounded-full flex items-center justify-center transition transform duration-200 p-2">
-                        <!-- Custom SVG Logo constructed from paths to match the Propel Labs House/Phone logo -->
-                        <svg viewBox="0 0 24 24" fill="none" class="w-full h-full">
-                            <!-- Phone Frame -->
-                            <rect x="5" y="3" width="14" height="18" rx="2" stroke="#1E3A8A" stroke-width="2" />
-                            <!-- Roof -->
-                            <path d="M2 9 L12 3 L22 9" stroke="#F97316" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <!-- Play Triangle -->
-                            <path d="M10 10 L15 13 L10 16 Z" fill="#F97316" />
-                            <!-- Swoosh/Arrow at bottom -->
-                            <path d="M3 17 Q 12 23 21 15" stroke="#1E3A8A" stroke-width="2" fill="none"
-                                stroke-linecap="round" />
-                            <!-- Bottom Button on Phone -->
-                            <circle cx="12" cy="18" r="1" fill="#1E3A8A" />
-                        </svg>
-                    </div>
-                </button>
-            </div>
-
-            <button onclick="switchTab('screen-refer', this)"
-                class="nav-item text-gray-400 hover:text-blue-900 flex flex-col items-center space-y-1 w-1/5">
-                <i data-lucide="users" class="w-6 h-6"></i>
-                <span class="text-[9px] font-medium text-center leading-none">Refer</span>
-            </button>
-
-            <button onclick="switchTab('screen-contact', this)"
-                class="nav-item text-gray-400 hover:text-blue-900 flex flex-col items-center space-y-1 w-1/5">
-                <i data-lucide="phone" class="w-6 h-6"></i>
-                <span class="text-[9px] font-medium">Contact</span>
-            </button>
-        </div>
-
-        <!-- ================= OVERLAYS ================= -->
-
-        <!-- Profile Overlay -->
-        <div id="overlay-profile"
-            class="fixed inset-0 z-[60] bg-black/50 hidden flex flex-col items-end backdrop-blur-sm">
-            <div class="bg-white w-2/3 h-full max-w-xs shadow-2xl p-6 animate-slide-in-right flex flex-col">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-xl font-bold text-blue-900">Profile</h2>
-                    <button onclick="closeProfile()" class="p-2 bg-gray-100 rounded-full"><i data-lucide="x"
-                            class="w-5 h-5 text-gray-600"></i></button>
-                </div>
-
-                <div class="flex flex-col items-center mb-8">
-                    <div
-                        class="w-20 h-20 bg-blue-900 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-3">
-                        AS</div>
-                    <h3 class="font-bold text-gray-800 text-lg">Ansh Sharma</h3>
-                    <p class="text-sm text-gray-500">ansh@example.com</p>
-                    <div class="mt-2 bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded font-bold">Verified
-                        Customer</div>
-                </div>
-
-                <div class="space-y-2 mb-auto">
-                    <button
-                        class="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 flex items-center space-x-3 text-gray-700">
-                        <i data-lucide="user" class="w-5 h-5"></i><span>My Details</span>
-                    </button>
-                    <button
-                        class="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 flex items-center space-x-3 text-gray-700">
-                        <i data-lucide="settings" class="w-5 h-5"></i><span>Settings</span>
-                    </button>
-                    <button
-                        class="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 flex items-center space-x-3 text-gray-700">
-                        <i data-lucide="help-circle" class="w-5 h-5"></i><span>Help & Support</span>
-                    </button>
-                </div>
-
-                <button onclick="navigateTo('screen-login')"
-                    class="w-full bg-red-50 text-red-600 font-bold py-3 rounded-xl flex items-center justify-center space-x-2">
-                    <i data-lucide="log-out" class="w-5 h-5"></i><span>Logout</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Referral Popup -->
-        <div id="popup-refer"
-            class="absolute inset-0 z-[60] bg-black/50 hidden flex items-center justify-center p-4 backdrop-blur-sm overflow-y-auto">
-            <div class="bg-white rounded-3xl w-full max-w-sm p-6 relative animate-slide-up shadow-2xl my-auto">
-                <button onclick="closeReferPopup()"
-                    class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"><i
-                        data-lucide="x" class="w-6 h-6 text-gray-800"></i></button>
-
-                <div class="text-center mb-6">
-                    <div class="inline-flex items-center justify-center space-x-2 text-blue-900 font-bold text-lg">
-                        <i data-lucide="users" class="w-5 h-5"></i>
-                        <span>Referral</span>
-                    </div>
-                </div>
-
-                <form onsubmit="event.preventDefault(); submitReferral();" class="space-y-4">
-                    <!-- Name -->
-                    <div>
-                        <label class="text-xs text-gray-500 ml-1">Name <span class="text-red-500">*</span></label>
-                        <input type="text"
-                            class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white"
-                            placeholder="Friend's Name" required>
-                    </div>
-
-                    <!-- Email -->
-                    <div>
-                        <label class="text-xs text-gray-500 ml-1">Email Address <span
-                                class="text-red-500">*</span></label>
-                        <input type="email"
-                            class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white"
-                            placeholder="friend@gmail.com" required>
-                    </div>
-
-                    <!-- Phone -->
-                    <div>
-                        <label class="text-xs text-gray-500 ml-1">Phone <span class="text-red-500">*</span></label>
-                        <input type="tel"
-                            class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white" required>
-                    </div>
-
-                    <!-- Project -->
-                    <div>
-                        <label class="text-xs text-gray-500 ml-1">Project Interested <span
-                                class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <select
-                                class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white appearance-none">
-                                <option>Select Project</option>
-                                <option>Property 1</option>
-                                <option>Property 2</option>
-                            </select>
-                            <i data-lucide="chevron-down"
-                                class="absolute right-3 top-3 w-4 h-4 text-gray-400 pointer-events-none"></i>
-                        </div>
-                    </div>
-
-                    <!-- Appointment Type (New) -->
-                    <div>
-                        <label class="text-xs text-gray-500 ml-1">Appointment Type <span
-                                class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <select
-                                class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white appearance-none">
-                                <option>Select Type</option>
-                                <option>Site Visit</option>
-                                <option>Video Call</option>
-                                <option>Office Visit</option>
-                            </select>
-                            <i data-lucide="chevron-down"
-                                class="absolute right-3 top-3 w-4 h-4 text-gray-400 pointer-events-none"></i>
-                        </div>
-                    </div>
-
-                    <!-- Date & Time (New) -->
-                    <div>
-                        <label class="text-xs text-gray-500 ml-1 mb-1 block">Site Visit Date</label>
-                        <div class="flex space-x-3">
-                            <div class="flex-1 relative">
-                                <input type="date"
-                                    class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white text-gray-600">
-                                <!-- Native date pickers usually show icon, custom icon logic omitted for native simplicity -->
-                            </div>
-                            <div class="flex-1 relative">
-                                <input type="time"
-                                    class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white text-gray-600">
-                            </div>
-                        </div>
-                    </div>
-
-                    <button
-                        class="w-full bg-blue-900 text-white font-bold py-3.5 rounded-xl shadow-lg mt-4 flex justify-center items-center group hover:bg-blue-800 transition-colors">
-                        <span>Submit</span>
-                    </button>
-                </form>
-            </div>
-        </div>
-
     </div>
 
-    <script>
-        // --- Data & State ---
-        const appState = {
-            propertyId: 1, // 1 or 2
-            ticketFilter: 'all' // all, pending, completed
-        };
+    <!-- 2. LOGIN SCREEN -->
+    <div id="screen-login" class="screen full-screen bg-white px-8 pt-12 pb-6">
+        <div class="w-full flex-1 flex flex-col justify-center animate-fade-in">
+            <div class="w-full h-48 mb-6 flex items-center justify-center relative">
+                 <div class="relative w-64 h-48 bg-white border-2 border-gray-200 rounded-lg shadow-md p-4 flex items-end justify-center overflow-hidden">
+                    <div class="absolute top-4 left-4"><i data-lucide="cloud" class="text-gray-200 w-8 h-8"></i></div>
+                    <div class="w-32 h-32 bg-blue-50 rounded-t-lg border-x border-t border-blue-100 relative z-10 flex flex-col items-center justify-end">
+                        <div class="w-8 h-12 bg-blue-900 rounded-t-sm mb-0"></div>
+                    </div>
+                    <div class="absolute -right-2 bottom-0 w-16 h-40 bg-gray-100 rounded-t-full z-0 transform rotate-12"></div>
+                 </div>
+            </div>
 
-        const propertyDetails = {
-            1: {
-                unit: 'A1001',
-                type: '3BHK+3T',
-                sba: '1850 Sq.ft',
-                carpet: '1250 Sq.ft',
-                image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
-                total: '₹1.50 Cr',
-                received: '₹1.20 Cr',
-                balance: '₹30.0 L',
-                outstanding: '₹5.0 L',
-                progress: 30,
-                status: 'Tower A - 5th Floor Slab',
-                images: [
-                    'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=400&q=80',
-                    'https://images.unsplash.com/photo-1590644365607-1c5a38fc43e0?auto=format&fit=crop&w=400&q=80'
-                ]
-            },
-            2: {
-                unit: 'B204',
-                type: '2BHK',
-                sba: '1250 Sq.ft',
-                carpet: '950 Sq.ft',
-                image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
-                total: '₹95.0 L',
-                received: '₹45.0 L',
-                balance: '₹50.0 L',
-                outstanding: '₹2.0 L',
-                progress: 75,
-                status: 'Tower B - Interiors',
-                images: [
-                    'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=400&q=80',
-                    'https://images.unsplash.com/photo-1531834685032-c34bf0d84c7c?auto=format&fit=crop&w=400&q=80'
-                ]
-            }
-        };
+            <h2 class="text-2xl font-bold text-blue-900 mb-2">Sign In</h2>
+            <p class="text-gray-500 text-sm mb-6">Please log in to your account</p>
 
-        const tickets = [
-            { id: '1994', subject: 'Demand Letter Issue', owner: 'Admin PS', status: 'Open', wip: 'WIP', color: 'orange', type: 'pending' },
-            { id: '2023', subject: 'Payment Confirmation', owner: 'Accounts', status: 'Closed', wip: 'Resolved', color: 'green', type: 'completed' },
-            { id: '2045', subject: 'Site Visit Request', owner: 'Sales', status: 'Open', wip: 'Scheduled', color: 'blue', type: 'pending' }
-        ];
+            <form onsubmit="event.preventDefault(); navigateTo('screen-otp-login');" class="space-y-5">
+                <div>
+                    <div class="flex items-center space-x-2 text-blue-900 mb-1">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                        <label class="text-xs font-bold uppercase tracking-wider">Your e-mail</label>
+                    </div>
+                    <input type="email" class="w-full px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-200 focus:border-blue-900 outline-none transition-all text-sm" value="ansh@example.com">
+                </div>
+                
+                <div>
+                    <div class="flex items-center space-x-2 text-blue-900 mb-1">
+                        <i data-lucide="key" class="w-4 h-4"></i>
+                        <label class="text-xs font-bold uppercase tracking-wider">Your password</label>
+                    </div>
+                    <div class="relative">
+                        <input type="password" class="w-full px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-200 focus:border-blue-900 outline-none transition-all text-sm" value="password123">
+                        <i data-lucide="eye" class="w-4 h-4 text-gray-400 absolute right-4 top-4 cursor-pointer"></i>
+                    </div>
+                </div>
 
-        // --- Initialization ---
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-            setTimeout(() => {
-                document.getElementById('screen-splash').style.display = 'none';
-                navigateTo('screen-onboarding'); // Actually redirects to login via simplified flow if needed, but keeping for direct access check
-                navigateTo('screen-login'); // Explicitly start at login per latest request to remove onboarding slides
-            }, 2000);
+                <div class="flex justify-end">
+                    <button type="button" onclick="navigateTo('screen-forgot-password')" class="text-xs text-blue-900 font-bold hover:underline">Forgot your password?</button>
+                </div>
 
-            // Init Components
-            renderHomeDetails();
-            renderConstruction();
-            renderTickets();
+                <button type="submit" class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-800 transition-colors mt-2">
+                    Sign in
+                </button>
+            </form>
+            
+            <div class="mt-auto text-center text-gray-400 text-xs pt-4">
+                Don't have an account? <span class="text-blue-900 font-bold cursor-pointer">Sign Up</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. LOGIN OTP (New) -->
+    <div id="screen-otp-login" class="screen full-screen bg-white px-8 pt-8">
+        <button onclick="navigateTo('screen-login')" class="mb-4 p-2 -ml-2"><i data-lucide="chevron-left" class="text-gray-800"></i></button>
+        <div class="flex flex-col items-center text-center animate-fade-in mt-4">
+            <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                <i data-lucide="shield-check" class="w-8 h-8 text-blue-900"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Verify Login</h2>
+            <p class="text-gray-500 text-sm mb-10 px-4">For your security, a one-time password has been sent to your email.</p>
+            
+            <div class="flex justify-center space-x-3 mb-8">
+                <input type="text" maxlength="1" class="otp-input w-14 h-16 rounded-xl border-2 border-blue-200 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all" value="1">
+                <input type="text" maxlength="1" class="otp-input w-14 h-16 rounded-xl border-2 border-blue-200 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all" value="2">
+                <input type="text" maxlength="1" class="otp-input w-14 h-16 rounded-xl border-2 border-blue-200 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all" value="3">
+                <input type="text" maxlength="1" class="otp-input w-14 h-16 rounded-xl border-2 border-blue-200 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all" value="4">
+            </div>
+
+            <div class="bg-blue-50 text-blue-900 px-4 py-1.5 rounded-full text-xs font-bold mb-8 flex items-center"><i data-lucide="clock" class="w-3 h-3 mr-1.5"></i> 00:21</div>
+
+            <button onclick="navigateTo('screen-dashboard', true)" class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg">Verify OTP</button>
+            <div class="mt-6 text-sm text-gray-500">Didn't receive code? <button class="text-blue-900 font-bold ml-1">Resend</button></div>
+        </div>
+    </div>
+
+    <!-- 4. FORGOT PASSWORD -->
+    <div id="screen-forgot-password" class="screen full-screen bg-white px-8 pt-8">
+        <button onclick="navigateTo('screen-login')" class="mb-4 p-2 -ml-2"><i data-lucide="chevron-left" class="text-gray-800"></i></button>
+        <div class="flex flex-col items-center text-center animate-fade-in mt-4">
+            <div class="w-40 h-40 bg-orange-50 rounded-full flex items-center justify-center mb-6 relative">
+                <i data-lucide="lock" class="w-16 h-16 text-blue-900 absolute z-10"></i>
+                <div class="w-24 h-24 bg-blue-100 rounded-full absolute animate-ping opacity-20"></div>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Forgot Password</h2>
+            <p class="text-gray-500 text-sm mb-8 px-4">Enter your registered email to get a recovery link</p>
+            <form onsubmit="event.preventDefault(); navigateTo('screen-otp');" class="w-full">
+                <div class="text-left mb-6">
+                    <label class="text-xs font-bold text-gray-500 ml-1 uppercase">Email Address</label>
+                    <input type="email" class="w-full px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-200 focus:border-blue-900 outline-none mt-1" placeholder="xyz@gmail.com">
+                </div>
+                <button class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 5. OTP VERIFICATION (Forgot Password) -->
+    <div id="screen-otp" class="screen full-screen bg-white px-8 pt-8">
+        <button onclick="navigateTo('screen-forgot-password')" class="mb-4 p-2 -ml-2"><i data-lucide="chevron-left" class="text-gray-800"></i></button>
+        <div class="flex flex-col items-center text-center animate-fade-in mt-4">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">OTP Verification</h2>
+            <p class="text-gray-500 text-sm mb-10 px-4">Enter 4 Digit verification code sent to your email id</p>
+            
+            <div class="flex justify-center space-x-3 mb-8">
+                <input type="text" maxlength="1" class="otp-input w-14 h-16 rounded-xl border-2 border-gray-100 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all">
+                <input type="text" maxlength="1" class="otp-input w-14 h-16 rounded-xl border-2 border-gray-100 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all">
+                <input type="text" maxlength="1" class="otp-input w-14 h-16 rounded-xl border-2 border-gray-100 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all">
+                <input type="text" maxlength="1" class="otp-input w-14 h-16 rounded-xl border-2 border-gray-100 text-center text-2xl font-bold text-blue-900 bg-white focus:outline-none transition-all">
+            </div>
+
+            <div class="bg-blue-50 text-blue-900 px-4 py-1.5 rounded-full text-xs font-bold mb-8 flex items-center"><i data-lucide="clock" class="w-3 h-3 mr-1.5"></i> 00:21</div>
+
+            <button onclick="navigateTo('screen-reset-password')" class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg">Verify OTP</button>
+            <div class="mt-6 text-sm text-gray-500">Didn't receive OTP? <button class="text-blue-900 font-bold ml-1">Resend</button></div>
+        </div>
+    </div>
+
+    <!-- 6. RESET PASSWORD -->
+    <div id="screen-reset-password" class="screen full-screen bg-white px-8 pt-8">
+        <button onclick="navigateTo('screen-otp')" class="mb-4 p-2 -ml-2"><i data-lucide="chevron-left" class="text-gray-800"></i></button>
+        <div class="flex flex-col items-center text-center animate-fade-in mt-4">
+            <div class="w-full h-40 mb-6 flex justify-center">
+                 <div class="relative w-32 h-full bg-blue-900 rounded-xl border-4 border-gray-800 flex flex-col items-center pt-4">
+                     <i data-lucide="lock" class="text-white w-10 h-10"></i>
+                     <div class="w-16 h-1 bg-white/20 rounded mt-4"></div>
+                     <div class="w-12 h-1 bg-white/20 rounded mt-2"></div>
+                 </div>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Reset Password</h2>
+            <p class="text-gray-500 text-sm mb-8 px-4">Enter at least 6 characters with uppercase, lowercase letters</p>
+
+            <form onsubmit="event.preventDefault(); navigateTo('screen-login');" class="w-full space-y-5 text-left">
+                <div class="relative">
+                    <label class="text-xs font-bold text-gray-500 ml-1 uppercase">New Password</label>
+                    <input type="password" class="w-full px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-200 focus:border-blue-900 outline-none mt-1">
+                    <i data-lucide="eye-off" class="w-5 h-5 text-gray-400 absolute right-4 top-9"></i>
+                </div>
+                <div class="relative">
+                    <label class="text-xs font-bold text-gray-500 ml-1 uppercase">Confirm Password</label>
+                    <input type="password" class="w-full px-4 py-3.5 rounded-xl bg-gray-50 border border-gray-200 focus:border-blue-900 outline-none mt-1">
+                    <i data-lucide="eye-off" class="w-5 h-5 text-gray-400 absolute right-4 top-9"></i>
+                </div>
+                <button type="submit" class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg mt-4">Reset Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= MAIN APP SCREENS ================= -->
+
+    <!-- 7. DASHBOARD (HOME PAGE) - CENTER BUTTON DESTINATION -->
+    <div id="screen-dashboard" class="screen">
+        <div class="bg-blue-900 pt-10 pb-12 px-6 header-curve relative z-0">
+            <div class="flex justify-between items-start">
+                <div>
+                    <div class="flex items-center space-x-2 text-white/90">
+                        <span class="text-lg">Welcome to Terminus</span>
+                        <span class="text-xl">👋🏻</span>
+                    </div>
+                    <p class="text-white text-xl font-bold mt-1">Ansh Sharma</p>
+                </div>
+                <div onclick="openProfile()" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white text-xs font-semibold bg-white/10 cursor-pointer active:scale-95 transition-transform">AS</div>
+            </div>
+        </div>
+
+        <div class="px-5 -mt-8 relative z-10 space-y-6 pb-24">
+            
+            <!-- Hero Card -->
+            <div onclick="navigateTo('screen-property-detail', true); switchTab('screen-property-detail', document.querySelector('.nav-item'))" class="bg-white rounded-2xl p-2 shadow-lg cursor-pointer transform transition hover:scale-[1.02]">
+                <div class="relative h-48 rounded-xl overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <p class="font-bold text-lg">Property</p>
+                        <p class="text-xs opacity-90">Kanakapura Road, Bengaluru</p>
+                    </div>
+                    <button class="absolute bottom-4 right-4 bg-white/20 backdrop-blur-md border border-white/40 text-white text-[10px] px-3 py-1.5 rounded-lg">View more</button>
+                </div>
+            </div>
+
+            <!-- Properties Scroll -->
+            <div>
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-gray-900 font-bold text-sm">My Properties</h3>
+                    <button class="text-gray-400 text-xs">View All</button>
+                </div>
+                <div class="flex space-x-3 overflow-x-auto no-scrollbar pb-2">
+                    <div class="min-w-[160px] bg-white rounded-xl p-2 shadow-sm border border-gray-100">
+                        <div class="h-24 rounded-lg bg-gray-200 mb-2 overflow-hidden">
+                             <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="text-[10px] text-gray-500">Project Name <span class="text-blue-900 font-bold">Property 1</span></h4>
+                        <div class="flex mt-1 text-[9px] text-gray-400 space-x-2">
+                            <span>Unit: <strong>A1001</strong></span>
+                            <span><strong>3BHK</strong></span>
+                        </div>
+                    </div>
+                    <div class="min-w-[160px] bg-white rounded-xl p-2 shadow-sm border border-gray-100">
+                        <div class="h-24 rounded-lg bg-gray-200 mb-2 overflow-hidden">
+                             <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="text-[10px] text-gray-500">Project Name <span class="text-blue-900 font-bold">Property 2</span></h4>
+                        <div class="flex mt-1 text-[9px] text-gray-400 space-x-2">
+                            <span>Unit: <strong>B204</strong></span>
+                            <span><strong>2BHK</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Refer Banner -->
+            <div class="bg-blue-900 rounded-2xl p-4 flex items-center justify-between relative overflow-hidden text-white shadow-lg">
+                 <div class="absolute -right-4 top-0 w-24 h-24 bg-orange-500 rounded-full opacity-20"></div>
+                 <div class="relative z-10 w-2/3">
+                     <div class="text-[10px] bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded w-fit mb-1">Earn Rewards</div>
+                     <p class="text-sm font-bold leading-tight mb-2">Refer your Friends & Family</p>
+                     <button onclick="openReferPopup()" class="bg-white text-blue-900 text-xs font-bold px-4 py-1.5 rounded-lg shadow-sm">Refer Now</button>
+                 </div>
+                 <div class="w-1/3 flex justify-end">
+                     <img src="https://cdn-icons-png.flaticon.com/512/3670/3670209.png" class="w-16 h-16 drop-shadow-lg filter brightness-110">
+                 </div>
+            </div>
+            
+            <!-- Video -->
+             <div class="relative h-36 rounded-2xl overflow-hidden shadow-md group">
+                <img src="https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                    <div class="flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/30">
+                        <i data-lucide="play" class="w-4 h-4 text-white fill-white"></i>
+                        <span class="text-white font-medium text-xs">Play Video</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. PROPERTY DETAILS (TAB 1) -->
+    <div id="screen-property-detail" class="screen">
+        <div class="bg-white pt-12 px-4 pb-2 flex flex-col items-center sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-gray-50">
+            <div class="w-full flex items-center mb-4">
+                 <button onclick="navigateTo('screen-dashboard', true)" class="p-2 mr-2"><i data-lucide="chevron-left" class="text-gray-800"></i></button>
+                 <h2 class="text-lg font-bold text-gray-800 flex-1 text-center pr-10">Property</h2>
+            </div>
+            <div class="flex space-x-2 mb-2">
+                <button id="home-prop-1" onclick="switchHomeProperty(1)" class="px-6 py-1.5 rounded-full text-xs font-bold bg-blue-900 text-white shadow-sm transition-all">Property 01</button>
+                <button id="home-prop-2" onclick="switchHomeProperty(2)" class="px-6 py-1.5 rounded-full text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all">Property 02</button>
+            </div>
+        </div>
+
+        <div class="p-5 space-y-6 pb-24 animate-fade-in no-scrollbar overflow-y-auto">
+            
+            <!-- Main Image -->
+            <div class="rounded-2xl overflow-hidden h-48 shadow-lg relative">
+                <img id="home-prop-img" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+            </div>
+
+            <!-- Unit Summary -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 relative overflow-hidden">
+                <h3 class="font-bold text-gray-800 mb-4 text-sm">Unit Summary</h3>
+                <div class="flex justify-between items-start relative z-10">
+                    <div class="grid grid-cols-2 gap-y-4 gap-x-6 w-3/4" id="unit-summary-grid">
+                        <!-- Injected via JS -->
+                    </div>
+                    <!-- Small Illustration -->
+                    <div class="w-16 h-20 bg-blue-50 rounded-lg flex items-center justify-center border border-blue-100 absolute right-0 bottom-0">
+                        <i data-lucide="smartphone" class="w-10 h-10 text-blue-300"></i>
+                        <div class="absolute -right-2 -bottom-2 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center border-2 border-white">
+                            <i data-lucide="calendar" class="w-4 h-4 text-green-600"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Summary -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 relative">
+                <h3 class="font-bold text-gray-800 mb-4 text-sm">Payment Summary</h3>
+                <div class="flex justify-between items-center mb-4">
+                     <div class="relative w-16 h-16 mr-4">
+                         <div class="absolute inset-0 bg-blue-50 rounded-full"></div>
+                         <i data-lucide="smartphone" class="w-8 h-8 text-blue-900 absolute top-3 left-4 z-10"></i>
+                         <div class="absolute bottom-2 right-0 bg-white shadow-md rounded-md p-1 border border-gray-100 z-20">
+                             <div class="w-3 h-2 bg-blue-900 rounded-sm"></div>
+                         </div>
+                     </div>
+                     
+                     <div class="flex-1 grid grid-cols-2 gap-4" id="payment-summary-grid">
+                        <!-- Injected via JS -->
+                     </div>
+                </div>
+            </div>
+
+            <!-- Installments -->
+            <div>
+                <h3 class="font-bold text-gray-800 mb-3 text-sm">Installments</h3>
+                <div class="flex space-x-3 overflow-x-auto no-scrollbar pb-2">
+                    <div class="min-w-[150px] bg-white rounded-xl p-3 border border-gray-100 shadow-sm relative">
+                         <div class="flex justify-between items-center mb-2">
+                             <span class="text-[10px] font-bold text-gray-800">On Booking</span>
+                             <div class="w-8 h-8 rounded-lg overflow-hidden bg-gray-100"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=100&q=60" class="w-full h-full object-cover"></div>
+                         </div>
+                         <p class="text-[9px] text-gray-400">Total Amount</p>
+                         <p class="font-bold text-sm text-gray-800">₹10,00,000</p>
+                         <div class="mt-2 flex justify-between items-end">
+                             <div>
+                                 <p class="text-[8px] text-gray-400">Due Date</p>
+                                 <p class="text-[9px] font-bold text-gray-600">01 Jan 2024</p>
+                             </div>
+                             <span class="bg-green-100 text-green-700 text-[8px] px-2 py-0.5 rounded font-bold">PAID</span>
+                         </div>
+                    </div>
+                    <div class="min-w-[150px] bg-white rounded-xl p-3 border border-gray-100 shadow-sm relative">
+                         <div class="flex justify-between items-center mb-2">
+                             <span class="text-[10px] font-bold text-gray-800">On Agreement</span>
+                             <div class="w-8 h-8 rounded-lg overflow-hidden bg-gray-100"><img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=100&q=60" class="w-full h-full object-cover"></div>
+                         </div>
+                         <p class="text-[9px] text-gray-400">Total Amount</p>
+                         <p class="font-bold text-sm text-gray-800">₹25,00,000</p>
+                         <div class="mt-2 flex justify-between items-end">
+                             <div>
+                                 <p class="text-[8px] text-gray-400">Due Date</p>
+                                 <p class="text-[9px] font-bold text-gray-600">15 Feb 2024</p>
+                             </div>
+                             <button class="bg-blue-900 text-white text-[8px] px-2 py-1 rounded shadow-sm">Pay Now</button>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Acknowledgement -->
+            <div>
+                 <h3 class="font-bold text-gray-800 mb-3 text-sm">Payment <span class="text-blue-900">Acknowledgement</span></h3>
+                 <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center justify-between">
+                     <div class="flex items-center space-x-3">
+                         <div class="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center">
+                             <i data-lucide="file-check" class="text-orange-500 w-5 h-5"></i>
+                         </div>
+                         <div>
+                             <p class="font-bold text-gray-800 text-xs">Property 1</p>
+                             <p class="text-[10px] text-blue-900 font-bold">Pay ₹10,00,000</p>
+                         </div>
+                     </div>
+                     <button class="bg-blue-900 text-white text-[10px] px-3 py-1.5 rounded-lg flex items-center shadow-md hover:bg-blue-800">
+                         <i data-lucide="download" class="w-3 h-3 mr-1"></i> Download
+                     </button>
+                 </div>
+            </div>
+
+            <!-- Debit/Credit Notes -->
+            <div>
+                <h3 class="font-bold text-gray-800 mb-3 text-sm">Debit/Credit <span class="text-blue-900">Notes</span></h3>
+                <div class="flex space-x-3 overflow-x-auto no-scrollbar pb-2">
+                    <div class="min-w-[140px] bg-red-50 rounded-xl p-3 border border-red-100">
+                         <div class="flex justify-between mb-2">
+                             <span class="text-[9px] font-bold text-blue-900">Debit Note</span>
+                             <div class="w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-sm"><i data-lucide="file-minus" class="w-2 h-2 text-red-500"></i></div>
+                         </div>
+                         <p class="text-[9px] text-gray-500">DN-000124</p>
+                         <p class="font-bold text-xs text-gray-800 mt-1">₹5,234</p>
+                         <p class="text-[8px] text-gray-400 mt-2">Due: 10 Jan</p>
+                    </div>
+                    <div class="min-w-[140px] bg-blue-50 rounded-xl p-3 border border-blue-100">
+                         <div class="flex justify-between mb-2">
+                             <span class="text-[9px] font-bold text-blue-900">Credit Note</span>
+                             <div class="w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-sm"><i data-lucide="file-plus" class="w-2 h-2 text-green-500"></i></div>
+                         </div>
+                         <p class="text-[9px] text-gray-500">CN-00055</p>
+                         <p class="font-bold text-xs text-gray-800 mt-1">₹12,000</p>
+                         <p class="text-[8px] text-gray-400 mt-2">Adj: 12 Jan</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Document Repository -->
+            <div class="flex flex-col items-center">
+                 <h3 class="font-bold text-gray-800 mb-4 text-sm w-full text-left">Document <span class="text-blue-900">Repository</span></h3>
+                 
+                 <!-- Center Folder Graphic -->
+                 <div class="relative w-32 h-32 mb-6">
+                      <div class="absolute inset-0 bg-yellow-100 rounded-full blur-xl opacity-50"></div>
+                      <div class="relative z-10 flex flex-col items-center">
+                           <i data-lucide="folder-open" class="w-20 h-20 text-yellow-400 fill-yellow-100"></i>
+                           <div class="absolute -top-4 right-0 bg-white p-1.5 rounded-lg shadow-sm border border-gray-100 animate-bounce"><i data-lucide="file-text" class="w-4 h-4 text-blue-900"></i></div>
+                           <div class="absolute top-0 -left-2 bg-white p-1.5 rounded-lg shadow-sm border border-gray-100 animate-bounce animation-delay-2000"><i data-lucide="image" class="w-4 h-4 text-green-600"></i></div>
+                      </div>
+                 </div>
+
+                 <div class="grid grid-cols-3 gap-4 w-full">
+                     <div class="flex flex-col items-center space-y-2">
+                         <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                             <i data-lucide="file-text" class="w-6 h-6 text-gray-700"></i>
+                         </div>
+                         <p class="text-[9px] text-center font-bold text-gray-700">Welcome<br>Letter</p>
+                     </div>
+                     <div class="flex flex-col items-center space-y-2">
+                         <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                             <i data-lucide="file-badge" class="w-6 h-6 text-gray-700"></i>
+                         </div>
+                         <p class="text-[9px] text-center font-bold text-gray-700">Allotment<br>Letter</p>
+                     </div>
+                     <div class="flex flex-col items-center space-y-2">
+                         <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                             <i data-lucide="receipt" class="w-6 h-6 text-gray-700"></i>
+                         </div>
+                         <p class="text-[9px] text-center font-bold text-gray-700">Payment<br>Receipts</p>
+                     </div>
+                     <div class="flex flex-col items-center space-y-2">
+                         <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                             <i data-lucide="help-circle" class="w-6 h-6 text-gray-700"></i>
+                         </div>
+                         <p class="text-[9px] text-center font-bold text-gray-700">FAQ</p>
+                     </div>
+                     <div class="flex flex-col items-center space-y-2">
+                         <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                             <i data-lucide="scroll-text" class="w-6 h-6 text-gray-700"></i>
+                         </div>
+                         <p class="text-[9px] text-center font-bold text-gray-700">Statement<br>of Account</p>
+                     </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. CONSTRUCTION -->
+    <div id="screen-construction" class="screen">
+        <div class="bg-blue-900 pt-12 px-6 pb-16 rounded-b-[2rem] text-center">
+            <h2 class="text-white font-bold text-lg">Construction Progress</h2>
+            <div class="flex justify-center mt-4 space-x-2">
+                <button id="btn-prop-1" onclick="switchProperty(1)" class="px-4 py-1.5 bg-white text-blue-900 rounded-full text-xs font-bold transition-all">Property 01</button>
+                <button id="btn-prop-2" onclick="switchProperty(2)" class="px-4 py-1.5 bg-white/20 text-white rounded-full text-xs font-medium transition-all">Property 02</button>
+            </div>
+        </div>
+
+        <div class="px-5 -mt-10 pb-24 space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-lg flex items-center justify-between animate-fade-in" id="construction-card">
+                <!-- Injected via JS -->
+            </div>
+
+            <div class="grid grid-cols-2 gap-4" id="construction-gallery">
+                <!-- Injected via JS -->
+            </div>
+
+            <div class="space-y-3" id="construction-files">
+                 <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 10. REFER FRIEND -->
+    <div id="screen-refer" class="screen">
+        <div class="bg-blue-900 pt-12 pb-10 px-6 rounded-b-[2rem] text-center text-white">
+            <h2 class="font-bold text-lg mb-4">Refer a Friend</h2>
+            <div class="flex justify-center items-center space-x-4 mb-6">
+                 <div class="flex flex-col items-center">
+                     <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-1"><i data-lucide="user" class="text-blue-900 w-6 h-6"></i></div>
+                     <span class="text-[9px]">Invite</span>
+                 </div>
+                 <i data-lucide="arrow-right" class="w-4 h-4 text-white/50"></i>
+                 <div class="flex flex-col items-center">
+                     <div class="w-16 h-16 bg-white border-4 border-orange-400 rounded-full flex items-center justify-center mb-1 scale-110"><i data-lucide="users" class="text-orange-500 w-8 h-8"></i></div>
+                     <span class="text-[9px] font-bold">They Join</span>
+                 </div>
+                 <i data-lucide="arrow-right" class="w-4 h-4 text-white/50"></i>
+                 <div class="flex flex-col items-center">
+                     <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-1"><i data-lucide="gift" class="text-blue-900 w-6 h-6"></i></div>
+                     <span class="text-[9px]">Reward</span>
+                 </div>
+            </div>
+            <p class="text-xs opacity-80 max-w-xs mx-auto">Invite a friend and earn up to <span class="font-bold text-orange-400">₹25,000/-</span> on every successful booking.</p>
+        </div>
+
+        <div class="px-6 mt-6 pb-24">
+            <div class="flex justify-between items-end mb-4">
+                <h3 class="font-bold text-gray-800 text-lg">Existing Referrals</h3>
+                <button onclick="openReferPopup()" class="bg-blue-900 text-white text-xs px-4 py-2 rounded-lg font-bold shadow-md">Refer New</button>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+                    <div>
+                        <p class="text-sm font-bold text-gray-800">Shreya Gupta</p>
+                        <p class="text-[10px] text-gray-400">Project: Property 1</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="bg-green-100 text-green-700 text-[9px] px-2 py-1 rounded font-bold">Completed</span>
+                        <p class="text-[10px] text-gray-400 mt-1">Reward Sent</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+                    <div>
+                        <p class="text-sm font-bold text-gray-800">Rahul Verma</p>
+                        <p class="text-[10px] text-gray-400">Project: Property 2</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="bg-yellow-100 text-yellow-700 text-[9px] px-2 py-1 rounded font-bold">In Progress</span>
+                        <p class="text-[10px] text-gray-400 mt-1">Site Visit Done</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 11. CONTACT -->
+    <div id="screen-contact" class="screen">
+        <div class="bg-blue-900 pt-12 pb-6 px-6 rounded-b-[2rem] text-center text-white">
+            <h2 class="font-bold text-lg">Contact Us</h2>
+        </div>
+
+        <div class="px-5 -mt-4 pb-24 space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+                <p class="text-sm text-gray-600 mb-4">We are one step away</p>
+                <div class="w-16 h-16 bg-blue-100 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl">👩🏻‍💼</div>
+                <h3 class="font-bold text-gray-800">Sowmya R</h3>
+                <p class="text-xs text-blue-900 font-medium mb-4">CRM Representative</p>
+                <p class="text-xs text-gray-500 mb-4">crm.example@propellabs.com</p>
+                <a href="tel:08069132200" class="block w-full bg-blue-900 text-white font-bold py-3 rounded-xl shadow-md flex justify-center items-center"><i data-lucide="phone" class="w-4 h-4 mr-2"></i> Call: 08069132200</a>
+            </div>
+
+            <div>
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-gray-800 text-lg">Service Request</h3>
+                    <button onclick="toggleLogRequest()" class="text-blue-900 text-xs font-bold border border-blue-900 px-3 py-1 rounded transition-colors hover:bg-blue-50" id="btn-log-req">Log Request</button>
+                </div>
+                
+                <!-- Ticket List View -->
+                <div id="ticket-view">
+                    <div class="bg-gray-200 p-1 rounded-lg flex mb-4 text-xs font-medium">
+                        <button onclick="filterTickets('all')" class="flex-1 bg-white shadow-sm py-1.5 rounded text-blue-900 transition-all" id="tab-all">All</button>
+                        <button onclick="filterTickets('pending')" class="flex-1 py-1.5 text-gray-500 hover:text-blue-900 transition-all" id="tab-pending">Pending</button>
+                        <button onclick="filterTickets('completed')" class="flex-1 py-1.5 text-gray-500 hover:text-blue-900 transition-all" id="tab-completed">Completed</button>
+                    </div>
+
+                    <div class="space-y-3" id="ticket-list">
+                         <!-- Injected -->
+                    </div>
+                </div>
+
+                <!-- Log Request Form -->
+                <div id="form-view" class="hidden">
+                    <form onsubmit="event.preventDefault(); submitTicket();" class="space-y-4 bg-white p-4 rounded-xl border border-gray-100 shadow-sm animate-fade-in">
+                        <div>
+                            <label class="text-xs text-gray-500 ml-1">Request Type</label>
+                            <select class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-blue-900 outline-none text-sm bg-white mt-1">
+                                <option>Select Type</option>
+                                <option>Billing Issue</option>
+                                <option>Document Request</option>
+                                <option>Maintenance</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-500 ml-1">Subject</label>
+                            <input type="text" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-blue-900 outline-none text-sm mt-1" placeholder="Brief subject">
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-500 ml-1">Description</label>
+                            <textarea class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-blue-900 outline-none text-sm mt-1 h-24" placeholder="Describe your issue..."></textarea>
+                        </div>
+                        <button class="w-full bg-blue-900 text-white font-bold py-3 rounded-xl shadow-lg">Submit Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= BOTTOM NAVIGATION ================= -->
+    <div id="bottom-nav" class="absolute bottom-0 w-full bg-white border-t border-gray-100 rounded-t-[2rem] px-4 py-3 z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.05)] flex justify-between items-end transition-transform duration-300 translate-y-full">
+        
+        <button onclick="switchTab('screen-property-detail', this)" class="nav-item flex flex-col items-center space-y-1 w-1/5 text-gray-400 hover:text-blue-900">
+            <i data-lucide="home" class="w-6 h-6"></i>
+            <span class="text-[9px] font-medium">Property</span>
+        </button>
+        
+        <button onclick="switchTab('screen-construction', this)" class="nav-item text-gray-400 hover:text-blue-900 flex flex-col items-center space-y-1 w-1/5">
+            <i data-lucide="hard-hat" class="w-6 h-6"></i>
+            <span class="text-[9px] font-medium text-center leading-none">Construction</span>
+        </button>
+
+        <!-- Center LOGO Button (Triggers DASHBOARD) -->
+        <div class="relative -top-8 w-1/5 flex justify-center">
+            <button onclick="switchTab('screen-dashboard', this)" class="w-14 h-14 bg-white rounded-full shadow-2xl flex items-center justify-center border border-gray-50 p-1 fab-pulse group overflow-hidden relative">
+                <!-- Inner Blue Circle -->
+                <div class="w-full h-full bg-white rounded-full flex items-center justify-center transition transform duration-200 p-2">
+                     <!-- Custom SVG Logo constructed from paths to match the Propel Labs House/Phone logo -->
+                     <svg viewBox="0 0 24 24" fill="none" class="w-full h-full">
+                        <!-- Phone Frame -->
+                        <rect x="5" y="3" width="14" height="18" rx="2" stroke="#1E3A8A" stroke-width="2" />
+                        <!-- Roof -->
+                        <path d="M2 9 L12 3 L22 9" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <!-- Play Triangle -->
+                        <path d="M10 10 L15 13 L10 16 Z" fill="#F97316" />
+                        <!-- Swoosh/Arrow at bottom -->
+                        <path d="M3 17 Q 12 23 21 15" stroke="#1E3A8A" stroke-width="2" fill="none" stroke-linecap="round" />
+                        <!-- Bottom Button on Phone -->
+                        <circle cx="12" cy="18" r="1" fill="#1E3A8A" />
+                     </svg>
+                </div>
+            </button>
+        </div>
+
+        <button onclick="switchTab('screen-refer', this)" class="nav-item text-gray-400 hover:text-blue-900 flex flex-col items-center space-y-1 w-1/5">
+            <i data-lucide="users" class="w-6 h-6"></i>
+            <span class="text-[9px] font-medium text-center leading-none">Refer</span>
+        </button>
+
+        <button onclick="switchTab('screen-contact', this)" class="nav-item text-gray-400 hover:text-blue-900 flex flex-col items-center space-y-1 w-1/5">
+            <i data-lucide="phone" class="w-6 h-6"></i>
+            <span class="text-[9px] font-medium">Contact</span>
+        </button>
+    </div>
+
+    <!-- ================= OVERLAYS ================= -->
+    
+    <!-- Profile Overlay -->
+    <div id="overlay-profile" class="fixed inset-0 z-[60] bg-black/50 hidden flex flex-col items-end backdrop-blur-sm">
+        <div class="bg-white w-2/3 h-full max-w-xs shadow-2xl p-6 animate-slide-in-right flex flex-col">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-xl font-bold text-blue-900">Profile</h2>
+                <button onclick="closeProfile()" class="p-2 bg-gray-100 rounded-full"><i data-lucide="x" class="w-5 h-5 text-gray-600"></i></button>
+            </div>
+            
+            <div class="flex flex-col items-center mb-8">
+                <div class="w-20 h-20 bg-blue-900 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-3">AS</div>
+                <h3 class="font-bold text-gray-800 text-lg">Ansh Sharma</h3>
+                <p class="text-sm text-gray-500">ansh@example.com</p>
+                <div class="mt-2 bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded font-bold">Verified Customer</div>
+            </div>
+
+            <div class="space-y-2 mb-auto">
+                <button class="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 flex items-center space-x-3 text-gray-700">
+                    <i data-lucide="user" class="w-5 h-5"></i><span>My Details</span>
+                </button>
+                <button class="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 flex items-center space-x-3 text-gray-700">
+                    <i data-lucide="settings" class="w-5 h-5"></i><span>Settings</span>
+                </button>
+                <button class="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 flex items-center space-x-3 text-gray-700">
+                    <i data-lucide="help-circle" class="w-5 h-5"></i><span>Help & Support</span>
+                </button>
+            </div>
+
+            <button onclick="navigateTo('screen-login')" class="w-full bg-red-50 text-red-600 font-bold py-3 rounded-xl flex items-center justify-center space-x-2">
+                <i data-lucide="log-out" class="w-5 h-5"></i><span>Logout</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Referral Popup -->
+    <div id="popup-refer" class="absolute inset-0 z-[60] bg-black/50 hidden flex items-center justify-center p-4 backdrop-blur-sm overflow-y-auto">
+        <div class="bg-white rounded-3xl w-full max-w-sm p-6 relative animate-slide-up shadow-2xl my-auto">
+            <button onclick="closeReferPopup()" class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"><i data-lucide="x" class="w-6 h-6 text-gray-800"></i></button>
+            
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center space-x-2 text-blue-900 font-bold text-lg">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span>Referral</span>
+                </div>
+            </div>
+
+            <form onsubmit="event.preventDefault(); submitReferral();" class="space-y-4">
+                <!-- Name -->
+                <div>
+                    <label class="text-xs text-gray-500 ml-1">Name <span class="text-red-500">*</span></label>
+                    <input type="text" class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white" placeholder="Friend's Name" required>
+                </div>
+                
+                <!-- Email -->
+                <div>
+                    <label class="text-xs text-gray-500 ml-1">Email Address <span class="text-red-500">*</span></label>
+                    <input type="email" class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white" placeholder="friend@gmail.com" required>
+                </div>
+                
+                <!-- Phone -->
+                <div>
+                    <label class="text-xs text-gray-500 ml-1">Phone <span class="text-red-500">*</span></label>
+                    <input type="tel" class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white" required>
+                </div>
+                
+                <!-- Project -->
+                <div>
+                    <label class="text-xs text-gray-500 ml-1">Project Interested <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <select class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white appearance-none">
+                            <option>Select Project</option>
+                            <option>Property 1</option>
+                            <option>Property 2</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="absolute right-3 top-3 w-4 h-4 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <!-- Appointment Type (New) -->
+                <div>
+                    <label class="text-xs text-gray-500 ml-1">Appointment Type <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <select class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white appearance-none">
+                            <option>Select Type</option>
+                            <option>Site Visit</option>
+                            <option>Video Call</option>
+                            <option>Office Visit</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="absolute right-3 top-3 w-4 h-4 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <!-- Date & Time (New) -->
+                <div>
+                    <label class="text-xs text-gray-500 ml-1 mb-1 block">Site Visit Date</label>
+                    <div class="flex space-x-3">
+                        <div class="flex-1 relative">
+                            <input type="date" class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white text-gray-600">
+                            <!-- Native date pickers usually show icon, custom icon logic omitted for native simplicity -->
+                        </div>
+                        <div class="flex-1 relative">
+                            <input type="time" class="w-full px-4 py-2.5 rounded-xl popup-input outline-none text-sm bg-white text-gray-600">
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="w-full bg-blue-900 text-white font-bold py-3.5 rounded-xl shadow-lg mt-4 flex justify-center items-center group hover:bg-blue-800 transition-colors">
+                    <span>Submit</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- Data & State ---
+    const appState = {
+        propertyId: 1, // 1 or 2
+        ticketFilter: 'all' // all, pending, completed
+    };
+
+    const propertyDetails = {
+        1: {
+            unit: 'A1001',
+            type: '3BHK+3T',
+            sba: '1850 Sq.ft',
+            carpet: '1250 Sq.ft',
+            image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
+            total: '₹1.50 Cr',
+            received: '₹1.20 Cr',
+            balance: '₹30.0 L',
+            outstanding: '₹5.0 L',
+            progress: 30,
+            status: 'Tower A - 5th Floor Slab',
+            images: [
+                'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=400&q=80', 
+                'https://images.unsplash.com/photo-1590644365607-1c5a38fc43e0?auto=format&fit=crop&w=400&q=80'
+            ]
+        },
+        2: {
+            unit: 'B204',
+            type: '2BHK',
+            sba: '1250 Sq.ft',
+            carpet: '950 Sq.ft',
+            image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+            total: '₹95.0 L',
+            received: '₹45.0 L',
+            balance: '₹50.0 L',
+            outstanding: '₹2.0 L',
+            progress: 75,
+            status: 'Tower B - Interiors',
+            images: [
+                'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=400&q=80', 
+                'https://images.unsplash.com/photo-1531834685032-c34bf0d84c7c?auto=format&fit=crop&w=400&q=80'
+            ]
+        }
+    };
+
+    const tickets = [
+        { id: '1994', subject: 'Demand Letter Issue', owner: 'Admin PS', status: 'Open', wip: 'WIP', color: 'orange', type: 'pending' },
+        { id: '2023', subject: 'Payment Confirmation', owner: 'Accounts', status: 'Closed', wip: 'Resolved', color: 'green', type: 'completed' },
+        { id: '2045', subject: 'Site Visit Request', owner: 'Sales', status: 'Open', wip: 'Scheduled', color: 'blue', type: 'pending' }
+    ];
+
+    // --- Initialization ---
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+        setTimeout(() => {
+            document.getElementById('screen-splash').style.display = 'none';
+            navigateTo('screen-onboarding'); // Actually redirects to login via simplified flow if needed, but keeping for direct access check
+            navigateTo('screen-login'); // Explicitly start at login per latest request to remove onboarding slides
+        }, 2000);
+
+        // Init Components
+        renderHomeDetails(); 
+        renderConstruction();
+        renderTickets();
+    });
+
+    // --- Navigation ---
+    function navigateTo(screenId, showNav = false) {
+        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+        const target = document.getElementById(screenId);
+        if(target) target.classList.add('active');
+        
+        const nav = document.getElementById('bottom-nav');
+        if (showNav) nav.classList.remove('translate-y-full');
+        else nav.classList.add('translate-y-full');
+
+        // Close overlays
+        closeProfile();
+        closeReferPopup();
+        
+        lucide.createIcons();
+        window.scrollTo(0, 0);
+    }
+
+    function switchTab(screenId, btnElement) {
+        document.querySelectorAll('.nav-item').forEach(el => {
+            el.classList.remove('active');
+            el.classList.add('text-gray-400');
         });
-
-        // --- Navigation ---
-        function navigateTo(screenId, showNav = false) {
-            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-            const target = document.getElementById(screenId);
-            if (target) target.classList.add('active');
-
-            const nav = document.getElementById('bottom-nav');
-            if (showNav) nav.classList.remove('translate-y-full');
-            else nav.classList.add('translate-y-full');
-
-            // Close overlays
-            closeProfile();
-            closeReferPopup();
-
-            lucide.createIcons();
-            window.scrollTo(0, 0);
+        
+        if (btnElement && btnElement.classList.contains('nav-item')) {
+            btnElement.classList.add('active');
+            btnElement.classList.remove('text-gray-400');
+        } 
+        
+        if (screenId === 'screen-home') {
+            renderHomeDetails(); // For Dashboard rendering if needed
+        }
+        
+        if (screenId === 'screen-property-detail') {
+            renderHomeDetails(); // Re-use logic for detail view
         }
 
-        function switchTab(screenId, btnElement) {
-            document.querySelectorAll('.nav-item').forEach(el => {
-                el.classList.remove('active');
-                el.classList.add('text-gray-400');
-            });
+        navigateTo(screenId, true);
+    }
 
-            if (btnElement && btnElement.classList.contains('nav-item')) {
-                btnElement.classList.add('active');
-                btnElement.classList.remove('text-gray-400');
+    // --- Home (Property Details) Logic ---
+    function switchHomeProperty(id) {
+        appState.propertyId = id;
+        
+        // Button Styles
+        const btn1 = document.getElementById('home-prop-1');
+        const btn2 = document.getElementById('home-prop-2');
+        
+        if(btn1 && btn2) {
+            if (id === 1) {
+                btn1.className = "px-6 py-1.5 rounded-full text-xs font-bold bg-blue-900 text-white shadow-sm transition-all";
+                btn2.className = "px-6 py-1.5 rounded-full text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all";
+            } else {
+                btn1.className = "px-6 py-1.5 rounded-full text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all";
+                btn2.className = "px-6 py-1.5 rounded-full text-xs font-bold bg-blue-900 text-white shadow-sm transition-all";
             }
-
-            if (screenId === 'screen-home') {
-                renderHomeDetails(); // For Dashboard rendering if needed
-            }
-
-            if (screenId === 'screen-property-detail') {
-                renderHomeDetails(); // Re-use logic for detail view
-            }
-
-            navigateTo(screenId, true);
         }
+        
+        renderHomeDetails();
+    }
 
-        // --- Home (Property Details) Logic ---
-        function switchHomeProperty(id) {
-            appState.propertyId = id;
+    function renderHomeDetails() {
+        const data = propertyDetails[appState.propertyId];
+        
+        const img = document.getElementById('home-prop-img');
+        if(img) img.src = data.image;
 
-            // Button Styles
-            const btn1 = document.getElementById('home-prop-1');
-            const btn2 = document.getElementById('home-prop-2');
-
-            if (btn1 && btn2) {
-                if (id === 1) {
-                    btn1.className = "px-6 py-1.5 rounded-full text-xs font-bold bg-blue-900 text-white shadow-sm transition-all";
-                    btn2.className = "px-6 py-1.5 rounded-full text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all";
-                } else {
-                    btn1.className = "px-6 py-1.5 rounded-full text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all";
-                    btn2.className = "px-6 py-1.5 rounded-full text-xs font-bold bg-blue-900 text-white shadow-sm transition-all";
-                }
-            }
-
-            renderHomeDetails();
-        }
-
-        function renderHomeDetails() {
-            const data = propertyDetails[appState.propertyId];
-
-            const img = document.getElementById('home-prop-img');
-            if (img) img.src = data.image;
-
-            const unitGrid = document.getElementById('unit-summary-grid');
-            if (unitGrid) {
-                unitGrid.innerHTML = `
+        const unitGrid = document.getElementById('unit-summary-grid');
+        if(unitGrid) {
+            unitGrid.innerHTML = `
                 <div>
                      <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wide">Unit No</p>
                      <p class="font-bold text-blue-900 text-sm">${data.unit}</p>
@@ -1320,11 +1015,11 @@
                      <p class="font-bold text-blue-900 text-sm">${data.carpet}</p>
                 </div>
             `;
-            }
+        }
 
-            const payGrid = document.getElementById('payment-summary-grid');
-            if (payGrid) {
-                payGrid.innerHTML = `
+        const payGrid = document.getElementById('payment-summary-grid');
+        if(payGrid) {
+            payGrid.innerHTML = `
                 <div>
                      <p class="text-[10px] text-gray-400 font-bold">Total Cost</p>
                      <p class="font-bold text-gray-800 text-sm">${data.total}</p>
@@ -1342,37 +1037,37 @@
                      <p class="font-bold text-red-500 text-sm">${data.outstanding}</p>
                 </div>
             `;
-            }
-
-            lucide.createIcons();
         }
+        
+        lucide.createIcons();
+    }
 
-        // --- Construction Logic ---
-        function switchProperty(id) {
-            appState.propertyId = id;
-
-            const btn1 = document.getElementById('btn-prop-1');
-            const btn2 = document.getElementById('btn-prop-2');
-
-            if (id === 1) {
-                btn1.className = "px-4 py-1.5 bg-white text-blue-900 rounded-full text-xs font-bold transition-all shadow-sm";
-                btn2.className = "px-4 py-1.5 bg-white/20 text-white rounded-full text-xs font-medium transition-all hover:bg-white/30";
-            } else {
-                btn1.className = "px-4 py-1.5 bg-white/20 text-white rounded-full text-xs font-medium transition-all hover:bg-white/30";
-                btn2.className = "px-4 py-1.5 bg-white text-blue-900 rounded-full text-xs font-bold transition-all shadow-sm";
-            }
-
-            renderConstruction();
+    // --- Construction Logic ---
+    function switchProperty(id) {
+        appState.propertyId = id;
+        
+        const btn1 = document.getElementById('btn-prop-1');
+        const btn2 = document.getElementById('btn-prop-2');
+        
+        if (id === 1) {
+            btn1.className = "px-4 py-1.5 bg-white text-blue-900 rounded-full text-xs font-bold transition-all shadow-sm";
+            btn2.className = "px-4 py-1.5 bg-white/20 text-white rounded-full text-xs font-medium transition-all hover:bg-white/30";
+        } else {
+            btn1.className = "px-4 py-1.5 bg-white/20 text-white rounded-full text-xs font-medium transition-all hover:bg-white/30";
+            btn2.className = "px-4 py-1.5 bg-white text-blue-900 rounded-full text-xs font-bold transition-all shadow-sm";
         }
+        
+        renderConstruction();
+    }
 
-        function renderConstruction() {
-            const data = propertyDetails[appState.propertyId];
-            const card = document.getElementById('construction-card');
-            const gallery = document.getElementById('construction-gallery');
-            const files = document.getElementById('construction-files');
+    function renderConstruction() {
+        const data = propertyDetails[appState.propertyId];
+        const card = document.getElementById('construction-card');
+        const gallery = document.getElementById('construction-gallery');
+        const files = document.getElementById('construction-files');
 
-            // 1. Status Card
-            card.innerHTML = `
+        // 1. Status Card
+        card.innerHTML = `
             <div>
                 <div class="flex items-center space-x-2 text-blue-900 mb-1">
                     <i data-lucide="hard-hat" class="w-5 h-5"></i>
@@ -1389,8 +1084,8 @@
             </div>
         `;
 
-            // 2. Gallery
-            gallery.innerHTML = `
+        // 2. Gallery
+        gallery.innerHTML = `
             <div class="rounded-xl overflow-hidden h-32 relative group shadow-sm">
                 <img src="${data.images[0]}" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
@@ -1405,8 +1100,8 @@
             </div>
         `;
 
-            // 3. Files
-            files.innerHTML = `
+        // 3. Files
+        files.innerHTML = `
              <div class="bg-white p-3 rounded-xl flex justify-between items-center shadow-sm border border-gray-100">
                  <div class="flex items-center space-x-3">
                      <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
@@ -1433,53 +1128,53 @@
              </div>
         `;
 
-            lucide.createIcons();
+        lucide.createIcons();
+    }
+
+    // --- Contact / Tickets Logic ---
+    function toggleLogRequest() {
+        const list = document.getElementById('ticket-view');
+        const form = document.getElementById('form-view');
+        const btn = document.getElementById('btn-log-req');
+        
+        if (form.classList.contains('hidden')) {
+            form.classList.remove('hidden');
+            list.classList.add('hidden');
+            btn.innerText = "Back to List";
+            btn.classList.add('bg-red-50', 'text-red-600', 'border-red-200');
+            btn.classList.remove('text-blue-900', 'border-blue-900');
+        } else {
+            form.classList.add('hidden');
+            list.classList.remove('hidden');
+            btn.innerText = "Log Request";
+            btn.classList.remove('bg-red-50', 'text-red-600', 'border-red-200');
+            btn.classList.add('text-blue-900', 'border-blue-900');
         }
+    }
 
-        // --- Contact / Tickets Logic ---
-        function toggleLogRequest() {
-            const list = document.getElementById('ticket-view');
-            const form = document.getElementById('form-view');
-            const btn = document.getElementById('btn-log-req');
-
-            if (form.classList.contains('hidden')) {
-                form.classList.remove('hidden');
-                list.classList.add('hidden');
-                btn.innerText = "Back to List";
-                btn.classList.add('bg-red-50', 'text-red-600', 'border-red-200');
-                btn.classList.remove('text-blue-900', 'border-blue-900');
+    function filterTickets(type) {
+        appState.ticketFilter = type;
+        
+        // Tab Styles
+        ['all', 'pending', 'completed'].forEach(t => {
+            const btn = document.getElementById('tab-' + t);
+            if(t === type) {
+                btn.className = "flex-1 bg-white shadow-sm py-1.5 rounded text-blue-900 transition-all font-bold";
             } else {
-                form.classList.add('hidden');
-                list.classList.remove('hidden');
-                btn.innerText = "Log Request";
-                btn.classList.remove('bg-red-50', 'text-red-600', 'border-red-200');
-                btn.classList.add('text-blue-900', 'border-blue-900');
+                btn.className = "flex-1 py-1.5 text-gray-500 hover:text-blue-900 transition-all";
             }
-        }
+        });
 
-        function filterTickets(type) {
-            appState.ticketFilter = type;
+        renderTickets();
+    }
 
-            // Tab Styles
-            ['all', 'pending', 'completed'].forEach(t => {
-                const btn = document.getElementById('tab-' + t);
-                if (t === type) {
-                    btn.className = "flex-1 bg-white shadow-sm py-1.5 rounded text-blue-900 transition-all font-bold";
-                } else {
-                    btn.className = "flex-1 py-1.5 text-gray-500 hover:text-blue-900 transition-all";
-                }
-            });
+    function renderTickets() {
+        const list = document.getElementById('ticket-list');
+        const filtered = appState.ticketFilter === 'all' 
+            ? tickets 
+            : tickets.filter(t => t.type === appState.ticketFilter);
 
-            renderTickets();
-        }
-
-        function renderTickets() {
-            const list = document.getElementById('ticket-list');
-            const filtered = appState.ticketFilter === 'all'
-                ? tickets
-                : tickets.filter(t => t.type === appState.ticketFilter);
-
-            list.innerHTML = filtered.map(t => `
+        list.innerHTML = filtered.map(t => `
             <div class="bg-${t.color}-50 border-l-4 border-${t.color}-400 p-4 rounded-r-xl shadow-sm animate-fade-in">
                  <div class="flex justify-between items-start">
                      <div>
@@ -1494,12 +1189,12 @@
                  </div>
             </div>
         `).join('');
-        }
+    }
 
-        function submitTicket() {
-            // Mock submission
-            const form = document.getElementById('form-view');
-            form.innerHTML = `
+    function submitTicket() {
+        // Mock submission
+        const form = document.getElementById('form-view');
+        form.innerHTML = `
             <div class="flex flex-col items-center justify-center py-10 animate-fade-in">
                 <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                     <i data-lucide="check" class="w-8 h-8 text-green-600"></i>
@@ -1509,32 +1204,31 @@
                 <button onclick="toggleLogRequest(); setTimeout(()=> location.reload(), 500)" class="mt-6 text-blue-900 font-bold text-sm">Close</button>
             </div>
         `;
-            lucide.createIcons();
-        }
+        lucide.createIcons();
+    }
 
-        // --- Profile ---
-        function openProfile() {
-            document.getElementById('overlay-profile').classList.remove('hidden');
-        }
-        function closeProfile() {
-            document.getElementById('overlay-profile').classList.add('hidden');
-        }
+    // --- Profile ---
+    function openProfile() {
+        document.getElementById('overlay-profile').classList.remove('hidden');
+    }
+    function closeProfile() {
+        document.getElementById('overlay-profile').classList.add('hidden');
+    }
 
-        // --- Referrals ---
-        function openReferPopup() {
-            document.getElementById('popup-refer').classList.remove('hidden');
-        }
+    // --- Referrals ---
+    function openReferPopup() {
+        document.getElementById('popup-refer').classList.remove('hidden');
+    }
+    
+    function closeReferPopup() {
+        document.getElementById('popup-refer').classList.add('hidden');
+    }
 
-        function closeReferPopup() {
-            document.getElementById('popup-refer').classList.add('hidden');
-        }
-
-        function submitReferral() {
-            closeReferPopup();
-            alert("Referral Submitted Successfully!");
-        }
-    </script>
+    function submitReferral() {
+        closeReferPopup();
+        alert("Referral Submitted Successfully!");
+    }
+</script>
 
 </body>
-
 </html>
